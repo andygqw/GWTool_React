@@ -57,8 +57,8 @@ function App() {
                     <Switch
                         checked={mode === 'dark'}
                         onChange={toggleTheme}
-                        icon={<LightMode/>}
-                        checkedIcon={<DarkMode/>}
+                        icon={<LightMode sx={{ color: themeMode.palette.text.primary}}/>}
+                        checkedIcon={<DarkMode sx={{ color: themeMode.palette.text.primary}}/>}
                     />
                 </Toolbar>
             </AppBar>
