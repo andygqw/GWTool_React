@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {Button, TextField, Container, Typography} from '@mui/material';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import api from '../utils/api';
 
 const LoginPage = () => {
+
     const theme = useTheme();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -32,6 +33,12 @@ const LoginPage = () => {
         }
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleLogin();
+        }
+    };
+
     return (
         <Container maxWidth="xs" sx={{
             textAlign: 'center',
@@ -48,6 +55,7 @@ const LoginPage = () => {
                 label="Username"
                 margin="normal"
                 value={username}
+                onKeyPress={handleKeyPress}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
@@ -57,6 +65,7 @@ const LoginPage = () => {
                 label="Password"
                 margin="normal"
                 value={password}
+                onKeyPress={handleKeyPress}
                 onChange={(e) => setPassword(e.target.value)}
             />
             {error && <Typography color="error" variant="body2">{error}</Typography>}
@@ -69,6 +78,14 @@ const LoginPage = () => {
             >
                 Log In
             </Button>
+            <Box sx={{ mt: 2 }}>
+                <Typography variant="body2">
+                    Don't have an account?{' '}
+                    <Button color="secondary" onClick={() => navigate('/register')}>
+                        Try Register
+                    </Button>
+                </Typography>
+            </Box>
         </Container>
     );
 };

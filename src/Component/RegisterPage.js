@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Container, Typography } from '@mui/material';
+import { Button, TextField, Container, Typography, Box } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
@@ -31,6 +31,12 @@ const RegisterPage = () => {
         }
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleRegister();
+        }
+    };
+
     return (
         <Container maxWidth="xs" sx={{
             textAlign: 'center',
@@ -47,6 +53,7 @@ const RegisterPage = () => {
                 label="Username"
                 margin="normal"
                 value={username}
+                onKeyPress={handleKeyPress}
                 onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
@@ -56,6 +63,7 @@ const RegisterPage = () => {
                 type="email"
                 margin="normal"
                 value={email}
+                onKeyPress={handleKeyPress}
                 onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
@@ -65,6 +73,7 @@ const RegisterPage = () => {
                 label="Password"
                 margin="normal"
                 value={password}
+                onKeyPress={handleKeyPress}
                 onChange={(e) => setPassword(e.target.value)}
             />
             {error && <Typography color="error" variant="body2">{error}</Typography>}
@@ -77,6 +86,14 @@ const RegisterPage = () => {
             >
                 Register
             </Button>
+            <Box sx={{ mt: 2 }}>
+                <Typography variant="body2">
+                    Already have an account?{' '}
+                    <Button color="secondary" onClick={() => navigate('/login')}>
+                        Try Log In
+                    </Button>
+                </Typography>
+            </Box>
         </Container>
     );
 };
