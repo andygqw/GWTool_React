@@ -50,7 +50,12 @@ function App() {
             <AppBar position="absolute"
                     elevation={0}
                     color="transparent"
-                    sx={{ top: 0, left: 0, right: 0 }}
+                    sx={{ top: 0,
+                        left: 0,
+                        right: 0,
+                        pl: 2,
+                        pr: 2,
+                    }}
             >
                 <Toolbar>
                     <Typography sx={{
