@@ -5,9 +5,9 @@ import {useNavigate} from 'react-router-dom';
 
 
 const LandingPage = ({mode}) => {
+
     const theme = useTheme();
     const navigate = useNavigate();
-
 
     return (
         <div>
@@ -38,7 +38,11 @@ const LandingPage = ({mode}) => {
                     Rapid online tools for single user.
                 </Typography>
                 <div>
-                    <Button variant="contained" color="primary" sx={{mr: 2}}>
+                    <Button variant="contained"
+                            color="primary"
+                            sx={{mr: 2}}
+                            onClick={() => navigate('/register')}
+                    >
                         Get Started
                     </Button>
                     <Button variant="outlined"

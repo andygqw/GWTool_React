@@ -13,6 +13,7 @@ import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
+import RegisterPage from './Component/RegisterPage'
 import './App.css';
 
 import {Route, Routes, useNavigate} from 'react-router-dom';
@@ -102,6 +103,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage mode={mode}/>}/>
                     <Route path="/login" element={<LoginPage/>}/>
+                    <Route path="/register" element={<RegisterPage />} />
                 </Routes>
             </Box>
         </ThemeProvider>
