@@ -43,11 +43,16 @@ function App() {
     return (
         <ThemeProvider theme={themeMode}>
             <CssBaseline/>
-            <AppBar position="static" elevation={0} color="transparent">
+            <AppBar position="absolute"
+                    elevation={0}
+                    color="transparent"
+                    sx={{ top: 0, left: 0, right: 0 }}
+            >
                 <Toolbar>
                     <Typography sx={{
                         flexGrow: 1,
-                        fontSize: '1.5rem',
+                        fontSize: '2rem',
+                        fontWeight: 300,
                     }}>
                         GWTool
                     </Typography>
