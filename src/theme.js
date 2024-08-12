@@ -6,7 +6,7 @@ const getDesignTokens = (mode) => ({
         ...(mode === 'light'
             ? {
                 // Light theme colors
-                primary: {main: '#ff1cf7'},
+                primary: {main: '#2572E6'},
                 background: {default: '#ffffff', paper: '#f5f5f5'},
             }
             : {

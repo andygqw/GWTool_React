@@ -2,8 +2,6 @@ import React, {useMemo, useState, useEffect} from 'react';
 import {
     ThemeProvider,
     CssBaseline,
-    Box,
-    FormControlLabel,
     Switch,
     Toolbar,
     Typography,

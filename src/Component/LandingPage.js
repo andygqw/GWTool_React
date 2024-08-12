@@ -1,6 +1,5 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Button, Container, Box, IconButton, Switch} from '@mui/material';
-import {Brightness7, Brightness4} from '@mui/icons-material';
+import {Typography, Button, Container} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 
 const LandingPage = ({mode, toggleTheme}) => {
