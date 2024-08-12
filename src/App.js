@@ -76,8 +76,8 @@ function App() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: mode === 'dark'
-                    ? 'linear-gradient(to bottom right, #2c3e50, #4ca1af)'
-                    : 'linear-gradient(to bottom right, #ffffff, #ece9e6)',
+                    ? 'linear-gradient(to bottom right, #090909, #3C1945)'
+                    : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
             }}>
                 <LandingPage mode={mode}/>
             </Box>
