@@ -15,7 +15,7 @@ import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
 import './App.css';
 
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import {Route, Routes, useNavigate} from 'react-router-dom';
 
 function App() {
     const getDefaultMode = () => {
@@ -50,7 +50,8 @@ function App() {
             <AppBar position="absolute"
                     elevation={0}
                     color="transparent"
-                    sx={{ top: 0,
+                    sx={{
+                        top: 0,
                         left: 0,
                         right: 0,
                         pl: 2,
@@ -58,11 +59,18 @@ function App() {
                     }}
             >
                 <Toolbar>
-                    <Typography sx={{
-                        flexGrow: 1,
-                        fontSize: '2rem',
-                        fontWeight: 300,
-                    }}>
+                    <Typography
+                        onClick={() => navigate('/')}
+                        sx={{
+                            flexGrow: 1,
+                            fontSize: '2rem',
+                            fontWeight: 300,
+                            cursor: 'pointer',
+                            '&:hover': {
+                                textDecoration: 'none',
+                                color: themeMode.palette.text.primary,
+                            }
+                        }}>
                         GWTool
                     </Typography>
                     <Button color="inherit">Text</Button>
@@ -73,8 +81,8 @@ function App() {
                     <Switch
                         checked={mode === 'dark'}
                         onChange={toggleTheme}
-                        icon={<LightMode sx={{ color: themeMode.palette.text.primary}}/>}
-                        checkedIcon={<DarkMode sx={{ color: themeMode.palette.text.primary}}/>}
+                        icon={<LightMode sx={{color: themeMode.palette.text.primary}}/>}
+                        checkedIcon={<DarkMode sx={{color: themeMode.palette.text.primary}}/>}
                     />
                     <Button color="inherit" onClick={() => navigate('/login')}>
                         Login
@@ -92,8 +100,8 @@ function App() {
                     : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
             }}>
                 <Routes>
-                    <Route path="/" element={<LandingPage mode={mode}/>} />
-                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/" element={<LandingPage mode={mode}/>}/>
+                    <Route path="/login" element={<LoginPage/>}/>
                 </Routes>
             </Box>
         </ThemeProvider>
