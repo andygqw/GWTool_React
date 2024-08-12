@@ -12,7 +12,10 @@ import {
 import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
+import LoginPage from './Component/LoginPage';
 import './App.css';
+
+import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 
 function App() {
     const getDefaultMode = () => {
@@ -28,6 +31,7 @@ function App() {
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
     };
 
+    const navigate = useNavigate();
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
@@ -67,6 +71,9 @@ function App() {
                         icon={<LightMode sx={{ color: themeMode.palette.text.primary}}/>}
                         checkedIcon={<DarkMode sx={{ color: themeMode.palette.text.primary}}/>}
                     />
+                    <Button color="inherit" onClick={() => navigate('/login')}>
+                        Login
+                    </Button>
                 </Toolbar>
             </AppBar>
             <Box component="main" sx={{
@@ -79,7 +86,10 @@ function App() {
                     ? 'linear-gradient(to bottom right, #090909, #3C1945)'
                     : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
             }}>
-                <LandingPage mode={mode}/>
+                <Routes>
+                    <Route path="/" element={<LandingPage mode={mode}/>} />
+                    <Route path="/login" element={<LoginPage />} />
+                </Routes>
             </Box>
         </ThemeProvider>
     );
