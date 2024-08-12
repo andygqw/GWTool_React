@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useMemo, useState } from 'react';
+import { ThemeProvider, CssBaseline, Button, Box } from '@mui/material';
+import { theme } from './theme';
+import LandingPage from './Component/LandingPage';
 
 function App() {
+  const [mode, setMode] = useState('light');
+  const themeMode = useMemo(() => theme(mode), [mode]);
+
+  const toggleTheme = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <ThemeProvider theme={themeMode}>
+          <CssBaseline />
+          {/* Optional: Theme toggle button */}
+          <Box sx={{ textAlign: 'center', m: 2 }}>
+              <Button variant="contained" onClick={toggleTheme}>
+                  Toggle {mode === 'light' ? 'Dark' : 'Light'} Mode
+              </Button>
+          </Box>
+          <LandingPage />
+      </ThemeProvider>
   );
 }
 
