@@ -2,12 +2,15 @@ import React from 'react';
 import {Typography, Button, Container} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 
-const LandingPage = ({mode, toggleTheme}) => {
+const LandingPage = ({mode}) => {
     const theme = useTheme(); // Access the current theme
 
     return (
         <div>
-            <Container sx={{textAlign: 'center', mt: 10}}>
+            <Container sx={{
+                textAlign: 'center',
+                margin: 0,
+            }}>
                 <Typography
                     variant="h2"
                     component="h1"
@@ -17,9 +20,9 @@ const LandingPage = ({mode, toggleTheme}) => {
                         color: theme.palette.text.primary
                     }}
                 >
-                    Make <span className={"gradient-text tracking-tight inline font-semibold"}>beautiful</span> websites
+                    Use <span className={"gradient-text tracking-tight inline font-semibold"}>convenient</span> tools
                     <br/>
-                    regardless of your design experience.
+                    with few simple clicks.
                 </Typography>
                 <Typography
                     variant="h6"
@@ -28,14 +31,16 @@ const LandingPage = ({mode, toggleTheme}) => {
                         mb: 4
                     }}
                 >
-                    Beautiful, fast, and modern React UI library.
+                    Rapid online tools for single user.
                 </Typography>
-                <Button variant="contained" color="primary" sx={{mr: 2}}>
-                    Get Started
-                </Button>
-                <Button variant="outlined" color="secondary">
-                    $ npx nextui-cli@latest init
-                </Button>
+                <div>
+                    <Button variant="contained" color="primary" sx={{mr: 2}}>
+                        Get Started
+                    </Button>
+                    <Button variant="outlined" color="secondary">
+                        Already have an account? Log in.
+                    </Button>
+                </div>
             </Container>
         </div>
     );

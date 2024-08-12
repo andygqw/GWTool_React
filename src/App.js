@@ -6,7 +6,8 @@ import {
     Toolbar,
     Typography,
     Button,
-    AppBar
+    AppBar,
+    Box,
 } from '@mui/material';
 import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
@@ -44,7 +45,10 @@ function App() {
             <CssBaseline/>
             <AppBar position="static" elevation={0} color="transparent">
                 <Toolbar>
-                    <Typography variant="h5" sx={{flexGrow: 1}}>
+                    <Typography sx={{
+                        flexGrow: 1,
+                        fontSize: '1.5rem',
+                    }}>
                         GWTool
                     </Typography>
                     <Button color="inherit">Text</Button>
@@ -60,7 +64,18 @@ function App() {
                     />
                 </Toolbar>
             </AppBar>
-            <LandingPage/>
+            <Box component="main" sx={{
+                height: '100vh',
+                margin: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: mode === 'dark'
+                    ? 'linear-gradient(to bottom right, #2c3e50, #4ca1af)'
+                    : 'linear-gradient(to bottom right, #ffffff, #ece9e6)',
+            }}>
+                <LandingPage mode={mode}/>
+            </Box>
         </ThemeProvider>
     );
 }
