@@ -1,19 +1,34 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Button, Container, Grid, Box, IconButton, Switch} from '@mui/material';
+import {AppBar, Toolbar, Typography, Button, Container, Box, IconButton, Switch} from '@mui/material';
 import {Brightness7, Brightness4} from '@mui/icons-material';
+import {useTheme} from '@mui/material/styles';
 
 const LandingPage = ({mode, toggleTheme}) => {
+    const theme = useTheme(); // Access the current theme
+
     return (
         <div>
-
-
             <Container sx={{textAlign: 'center', mt: 10}}>
-                <Typography variant="h2" component="h1" gutterBottom sx={{fontWeight: 'bold', color: '#fff'}}>
-                    Make <span style={{color: '#9f67ff'}}>beautiful</span> websites
+                <Typography
+                    variant="h2"
+                    component="h1"
+                    gutterBottom
+                    sx={{
+                        fontWeight: 'bold',
+                        color: theme.palette.text.primary
+                    }}
+                >
+                    Make <span className={"gradient-text tracking-tight inline font-semibold"}>beautiful</span> websites
                     <br/>
                     regardless of your design experience.
                 </Typography>
-                <Typography variant="h6" sx={{color: '#aaa', mb: 4}}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        color: theme.palette.text.secondary,
+                        mb: 4
+                    }}
+                >
                     Beautiful, fast, and modern React UI library.
                 </Typography>
                 <Button variant="contained" color="primary" sx={{mr: 2}}>

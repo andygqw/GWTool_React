@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+/*-----------------------------------------------Self Defined CSS--------------------------------------------------*/
+
+.tracking-tight {
+  letter-spacing: -.025em;
+}
+
+.inline {
+  display: inline;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #ff1cf7, #b249f8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}

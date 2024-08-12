@@ -13,6 +13,7 @@ import {
 import {Brightness7, Brightness4} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
+import './App.css';
 
 function App() {
     const getDefaultMode = () => {
@@ -43,29 +44,16 @@ function App() {
     return (
         <ThemeProvider theme={themeMode}>
             <CssBaseline/>
-            {/*<Box sx={{textAlign: 'center', m: 2}}>*/}
-            {/*    <FormControlLabel*/}
-            {/*        control={*/}
-            {/*            <Switch*/}
-            {/*                checked={mode === 'dark'}*/}
-            {/*                onChange={toggleTheme}*/}
-            {/*                icon={<Brightness7/>}*/}
-            {/*                checkedIcon={<Brightness4/>}*/}
-            {/*            />*/}
-            {/*        }*/}
-            {/*        label=""*/}
-            {/*    />*/}
-            {/*</Box>*/}
             <AppBar position="static" elevation={0} color="transparent">
                 <Toolbar>
                     <Typography variant="h6" sx={{flexGrow: 1}}>
                         NextUI
                     </Typography>
-                    <Button color="inherit">Docs</Button>
-                    <Button color="inherit">Components</Button>
-                    <Button color="inherit">Blog</Button>
-                    <Button color="inherit">Figma</Button>
-                    <Button color="inherit">Roadmap</Button>
+                    <Button color="inherit">Text</Button>
+                    <Button color="inherit">Words</Button>
+                    <Button color="inherit">Files</Button>
+                    <Button color="inherit">Resources</Button>
+                    <Button color="inherit">KisKis</Button>
                     <Switch
                         checked={mode === 'dark'}
                         onChange={toggleTheme}
