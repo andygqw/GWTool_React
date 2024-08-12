@@ -1,71 +1,30 @@
 import React from 'react';
-import {AppBar, Toolbar, Typography, Button, Container, Grid, Paper, Box} from '@mui/material';
+import {AppBar, Toolbar, Typography, Button, Container, Grid, Box, IconButton, Switch} from '@mui/material';
+import {Brightness7, Brightness4} from '@mui/icons-material';
 
-function LandingPage() {
+const LandingPage = ({mode, toggleTheme}) => {
     return (
-        <>
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" style={{flexGrow: 1}}>
-                        My Web Project
-                    </Typography>
-                    <Button color="inherit">Login</Button>
-                </Toolbar>
-            </AppBar>
-            <Box sx={{bgcolor: 'background.paper', pt: 8, pb: 6}}>
-                <Container maxWidth="sm">
-                    <Typography variant="h2" align="center" gutterBottom>
-                        Welcome to My Web Project
-                    </Typography>
-                    <Typography variant="h5" align="center" paragraph>
-                        A modern browsing experience tailored to your needs.
-                    </Typography>
-                </Container>
-            </Box>
-            <Container>
-                <Grid container spacing={4}>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{p: 2}}>
-                            <Typography variant="h5" align="center">
-                                Feature 1
-                            </Typography>
-                            <Typography>
-                                Description of feature 1.
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{p: 2}}>
-                            <Typography variant="h5" align="center">
-                                Feature 2
-                            </Typography>
-                            <Typography>
-                                Description of feature 2.
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{p: 2}}>
-                            <Typography variant="h5" align="center">
-                                Feature 3
-                            </Typography>
-                            <Typography>
-                                Description of feature 3.
-                            </Typography>
-                        </Paper>
-                    </Grid>
-                </Grid>
+        <div>
+
+
+            <Container sx={{textAlign: 'center', mt: 10}}>
+                <Typography variant="h2" component="h1" gutterBottom sx={{fontWeight: 'bold', color: '#fff'}}>
+                    Make <span style={{color: '#9f67ff'}}>beautiful</span> websites
+                    <br/>
+                    regardless of your design experience.
+                </Typography>
+                <Typography variant="h6" sx={{color: '#aaa', mb: 4}}>
+                    Beautiful, fast, and modern React UI library.
+                </Typography>
+                <Button variant="contained" color="primary" sx={{mr: 2}}>
+                    Get Started
+                </Button>
+                <Button variant="outlined" color="secondary">
+                    $ npx nextui-cli@latest init
+                </Button>
             </Container>
-            <Box sx={{bgcolor: 'background.paper', p: 6}} component="footer">
-                <Typography variant="h6" align="center" gutterBottom>
-                    Footer
-                </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Something here to give the footer a purpose!
-                </Typography>
-            </Box>
-        </>
+        </div>
     );
-}
+};
 
 export default LandingPage;

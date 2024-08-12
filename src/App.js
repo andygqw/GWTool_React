@@ -1,5 +1,15 @@
 import React, {useMemo, useState, useEffect} from 'react';
-import {ThemeProvider, CssBaseline, Box, FormControlLabel, Switch} from '@mui/material';
+import {
+    ThemeProvider,
+    CssBaseline,
+    Box,
+    FormControlLabel,
+    Switch,
+    Toolbar,
+    Typography,
+    Button,
+    AppBar
+} from '@mui/material';
 import {Brightness7, Brightness4} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
@@ -33,19 +43,37 @@ function App() {
     return (
         <ThemeProvider theme={themeMode}>
             <CssBaseline/>
-            <Box sx={{textAlign: 'center', m: 2}}>
-                <FormControlLabel
-                    control={
-                        <Switch
-                            checked={mode === 'dark'}
-                            onChange={toggleTheme}
-                            icon={<Brightness7/>}
-                            checkedIcon={<Brightness4/>}
-                        />
-                    }
-                    label=""
-                />
-            </Box>
+            {/*<Box sx={{textAlign: 'center', m: 2}}>*/}
+            {/*    <FormControlLabel*/}
+            {/*        control={*/}
+            {/*            <Switch*/}
+            {/*                checked={mode === 'dark'}*/}
+            {/*                onChange={toggleTheme}*/}
+            {/*                icon={<Brightness7/>}*/}
+            {/*                checkedIcon={<Brightness4/>}*/}
+            {/*            />*/}
+            {/*        }*/}
+            {/*        label=""*/}
+            {/*    />*/}
+            {/*</Box>*/}
+            <AppBar position="static" elevation={0} color="transparent">
+                <Toolbar>
+                    <Typography variant="h6" sx={{flexGrow: 1}}>
+                        NextUI
+                    </Typography>
+                    <Button color="inherit">Docs</Button>
+                    <Button color="inherit">Components</Button>
+                    <Button color="inherit">Blog</Button>
+                    <Button color="inherit">Figma</Button>
+                    <Button color="inherit">Roadmap</Button>
+                    <Switch
+                        checked={mode === 'dark'}
+                        onChange={toggleTheme}
+                        icon={<Brightness7/>}
+                        checkedIcon={<Brightness4/>}
+                    />
+                </Toolbar>
+            </AppBar>
             <LandingPage/>
         </ThemeProvider>
     );
