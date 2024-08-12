@@ -10,7 +10,7 @@ import {
     Button,
     AppBar
 } from '@mui/material';
-import {Brightness7, Brightness4} from '@mui/icons-material';
+import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
 import './App.css';
@@ -46,8 +46,8 @@ function App() {
             <CssBaseline/>
             <AppBar position="static" elevation={0} color="transparent">
                 <Toolbar>
-                    <Typography variant="h6" sx={{flexGrow: 1}}>
-                        NextUI
+                    <Typography variant="h5" sx={{flexGrow: 1}}>
+                        GWTool
                     </Typography>
                     <Button color="inherit">Text</Button>
                     <Button color="inherit">Words</Button>
@@ -57,8 +57,8 @@ function App() {
                     <Switch
                         checked={mode === 'dark'}
                         onChange={toggleTheme}
-                        icon={<Brightness7/>}
-                        checkedIcon={<Brightness4/>}
+                        icon={<LightMode/>}
+                        checkedIcon={<DarkMode/>}
                     />
                 </Toolbar>
             </AppBar>
