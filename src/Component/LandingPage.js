@@ -1,18 +1,18 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Container, Grid, Paper, Box } from '@mui/material';
+import {AppBar, Toolbar, Typography, Button, Container, Grid, Paper, Box} from '@mui/material';
 
 function LandingPage() {
     return (
         <>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" style={{ flexGrow: 1 }}>
+                    <Typography variant="h6" style={{flexGrow: 1}}>
                         My Web Project
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
-            <Box sx={{ bgcolor: 'background.paper', pt: 8, pb: 6 }}>
+            <Box sx={{bgcolor: 'background.paper', pt: 8, pb: 6}}>
                 <Container maxWidth="sm">
                     <Typography variant="h2" align="center" gutterBottom>
                         Welcome to My Web Project
@@ -25,7 +25,7 @@ function LandingPage() {
             <Container>
                 <Grid container spacing={4}>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{ p: 2 }}>
+                        <Paper elevation={3} sx={{p: 2}}>
                             <Typography variant="h5" align="center">
                                 Feature 1
                             </Typography>
@@ -35,7 +35,7 @@ function LandingPage() {
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{ p: 2 }}>
+                        <Paper elevation={3} sx={{p: 2}}>
                             <Typography variant="h5" align="center">
                                 Feature 2
                             </Typography>
@@ -45,7 +45,7 @@ function LandingPage() {
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <Paper elevation={3} sx={{ p: 2 }}>
+                        <Paper elevation={3} sx={{p: 2}}>
                             <Typography variant="h5" align="center">
                                 Feature 3
                             </Typography>
@@ -56,7 +56,7 @@ function LandingPage() {
                     </Grid>
                 </Grid>
             </Container>
-            <Box sx={{ bgcolor: 'background.paper', p: 6 }} component="footer">
+            <Box sx={{bgcolor: 'background.paper', p: 6}} component="footer">
                 <Typography variant="h6" align="center" gutterBottom>
                     Footer
                 </Typography>

@@ -1,28 +1,54 @@
-import React, { useMemo, useState } from 'react';
-import { ThemeProvider, CssBaseline, Button, Box } from '@mui/material';
-import { theme } from './theme';
+import React, {useMemo, useState, useEffect} from 'react';
+import {ThemeProvider, CssBaseline, Box, FormControlLabel, Switch} from '@mui/material';
+import {Brightness7, Brightness4} from '@mui/icons-material';
+import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
 
 function App() {
-  const [mode, setMode] = useState('light');
-  const themeMode = useMemo(() => theme(mode), [mode]);
+    const getDefaultMode = () => {
+        const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        return prefersDarkMode ? 'dark' : 'light';
+    };
 
-  const toggleTheme = () => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  };
+    const [mode, setMode] = useState(getDefaultMode);
 
-  return (
-      <ThemeProvider theme={themeMode}>
-          <CssBaseline />
-          {/* Optional: Theme toggle button */}
-          <Box sx={{ textAlign: 'center', m: 2 }}>
-              <Button variant="contained" onClick={toggleTheme}>
-                  Toggle {mode === 'light' ? 'Dark' : 'Light'} Mode
-              </Button>
-          </Box>
-          <LandingPage />
-      </ThemeProvider>
-  );
+    const themeMode = useMemo(() => theme(mode), [mode]);
+
+    const toggleTheme = () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+    };
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleChange = (e) => {
+            setMode(e.matches ? 'dark' : 'light');
+        };
+        mediaQuery.addEventListener('change', handleChange);
+
+        return () => {
+            mediaQuery.removeEventListener('change', handleChange);
+        };
+    }, []);
+
+    return (
+        <ThemeProvider theme={themeMode}>
+            <CssBaseline/>
+            <Box sx={{textAlign: 'center', m: 2}}>
+                <FormControlLabel
+                    control={
+                        <Switch
+                            checked={mode === 'dark'}
+                            onChange={toggleTheme}
+                            icon={<Brightness7/>}
+                            checkedIcon={<Brightness4/>}
+                        />
+                    }
+                    label=""
+                />
+            </Box>
+            <LandingPage/>
+        </ThemeProvider>
+    );
 }
 
 export default App;
