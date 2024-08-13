@@ -6,8 +6,6 @@ const FloatingInput = ({label, value, onChange, sx}) => {
     return (
         <Box
             sx={{
-                position: 'absolute',
-                right: '0',
                 width: 'fit-content',
                 display: 'flex',
                 flexDirection: 'column',
