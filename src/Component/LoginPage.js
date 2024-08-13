@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import {Button, TextField, Container, Typography, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import api from '../utils/api';
@@ -40,53 +40,62 @@ const LoginPage = () => {
     };
 
     return (
-        <Container maxWidth="xs" sx={{
-            textAlign: 'center',
-            backgroundColor: theme.palette.background.paper,
-            padding: 4,
-            borderRadius: 2
+
+        <Box component="main" sx={{
+            height: '100vh',
+            margin: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
         }}>
-            <Typography variant="h4" gutterBottom>
-                Log In
-            </Typography>
-            <TextField
-                fullWidth
-                variant="outlined"
-                label="Username"
-                margin="normal"
-                value={username}
-                onKeyPress={handleKeyPress}
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            <TextField
-                fullWidth
-                variant="outlined"
-                type="password"
-                label="Password"
-                margin="normal"
-                value={password}
-                onKeyPress={handleKeyPress}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            {error && <Typography color="error" variant="body2">{error}</Typography>}
-            <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                sx={{mt: 3}}
-                onClick={handleLogin}
-            >
-                Log In
-            </Button>
-            <Box sx={{ mt: 2 }}>
-                <Typography variant="body2">
-                    Don't have an account?{' '}
-                    <Button color="secondary" onClick={() => navigate('/register')}>
-                        Try Register
-                    </Button>
+            <Container maxWidth="xs" sx={{
+                textAlign: 'center',
+                backgroundColor: theme.palette.background.paper,
+                padding: 4,
+                borderRadius: 2,
+            }}>
+                <Typography variant="h4" gutterBottom>
+                    Log In
                 </Typography>
-            </Box>
-        </Container>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    label="Username"
+                    margin="normal"
+                    value={username}
+                    onKeyPress={handleKeyPress}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    type="password"
+                    label="Password"
+                    margin="normal"
+                    value={password}
+                    onKeyPress={handleKeyPress}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                {error && <Typography color="error" variant="body2">{error}</Typography>}
+                <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    sx={{mt: 3}}
+                    onClick={handleLogin}
+                >
+                    Log In
+                </Button>
+                <Box sx={{mt: 2}}>
+                    <Typography variant="body2">
+                        Don't have an account?{' '}
+                        <Button color="secondary" onClick={() => navigate('/register')}>
+                            Try Register
+                        </Button>
+                    </Typography>
+                </Box>
+            </Container>
+        </Box>
     );
 };
 
