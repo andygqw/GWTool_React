@@ -10,39 +10,49 @@ const LandingPage = ({mode}) => {
 
     const sections = [
         {
-            title: "Text",
-            description: "Enhance your text transferring experience without log in.",
+            description1: "Text transferring experience ",
+            description2: "without ",
+            description3: "log in.",
+            subTitle: "Text",
             buttonText: "Explore Text Tools",
             buttonAction: () => navigate('/text'),
-            background: mode === 'dark' ? 'linear-gradient(to bottom right, #1f1c2c, #928DAB)' : 'linear-gradient(to bottom right, #f7f7f7, #e3e3e3)',
+            gradientClass:  "gradient-text2 tracking-tight inline font-semibold",
         },
         {
-            title: "Words",
-            description: "Manipulate and analyze words effortlessly.",
+            description1: "Manipulate and analyze words ",
+            description2: "effortlessly.",
+            description3: "",
+            subTitle: "Text",
             buttonText: "Explore Words Tools",
             buttonAction: () => navigate('/words'),
-            background: mode === 'dark' ? 'linear-gradient(to bottom right, #333, #111)' : 'linear-gradient(to bottom right, #f0f0f0, #dcdcdc)',
+            gradientClass: "gradient-text3 tracking-tight inline font-semibold",
         },
         {
-            title: "Files",
-            description: "Manage your files with ease and efficiency.",
+            description1: "Manage ",
+            description2: "files ",
+            description3: "with ease and efficiency.",
+            subTitle: "Text",
             buttonText: "Explore Files Tools",
             buttonAction: () => navigate('/files'),
-            background: mode === 'dark' ? 'linear-gradient(to bottom right, #000428, #004e92)' : 'linear-gradient(to bottom right, #ffffff, #e8e8e8)',
+            gradientClass: "gradient-text4 tracking-tight inline font-semibold",
         },
         {
-            title: "Resources",
-            description: "Access a wide range of resources to aid your work.",
+            description1: "Access a ",
+            description2: "wide range ",
+            description3: "of resources.",
+            subTitle: "Text",
             buttonText: "Explore Resources",
             buttonAction: () => navigate('/resources'),
-            background: mode === 'dark' ? 'linear-gradient(to bottom right, #0f0c29, #302b63, #24243e)' : 'linear-gradient(to bottom right, #fdfcfb, #e2d1c3)',
+            gradientClass:  "gradient-text5 tracking-tight inline font-semibold",
         },
         {
-            title: "KisKis",
-            description: "Discover the unique KisKis features.",
+            description1: "Discover the ",
+            description2: "unique ",
+            description3: "KisKis features.",
+            subTitle: "Text",
             buttonText: "Explore KisKis",
             buttonAction: () => navigate('/kiskis'),
-            background: mode === 'dark' ? 'linear-gradient(to bottom right, #414345, #232526)' : 'linear-gradient(to bottom right, #e0eafc, #cfdef3)',
+            gradientClass:  "gradient-text tracking-tight inline font-semibold",
         },
     ];
 
@@ -107,34 +117,41 @@ const LandingPage = ({mode}) => {
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'center',
+                    alignItems: 'center',
                 }}>
-                    <Typography
-                        variant="h3"
-                        component="h2"
-                        gutterBottom
-                        sx={{
-                            fontWeight: 'bold',
-                            color: theme.palette.text.primary
-                        }}
-                    >
-                        {section.title}
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            color: theme.palette.text.secondary,
-                            mb: 4
-                        }}
-                    >
-                        {section.description}
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={section.buttonAction}
-                    >
-                        {section.buttonText}
-                    </Button>
+                    <div className={'feature-card'}>
+                        <Typography
+                            variant="h3"
+                            component="h2"
+                            gutterBottom
+                            sx={{
+                                fontWeight: 'bold',
+                                color: theme.palette.text.primary
+                            }}
+                        >
+                            {section.description1}
+                            <span className={section.gradientClass}>
+                                {section.description2}
+                            </span>
+                            {section.description3}
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                color: theme.palette.text.secondary,
+                                mb: 4
+                            }}
+                        >
+                            {section.description}
+                        </Typography>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={section.buttonAction}
+                        >
+                            {section.buttonText}
+                        </Button>
+                    </div>
                 </Container>
             ))}
         </div>
