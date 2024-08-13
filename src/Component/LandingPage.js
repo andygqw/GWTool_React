@@ -82,17 +82,18 @@ const LandingPage = ({mode, isLoggedIn}) => {
                     sx={{
                         fontWeight: 'bold',
                         color: theme.palette.text.primary,
-                        fontSize: {xs: '2rem', sm: '2.5rem', md: '3rem'}
+                        fontSize: { xs: '2rem', sm: '2.5rem', md: '3.75rem' }
                     }}
                 >
                     {isLoggedIn ? (
                         <>Welcome! Use <span className={"gradient-text tracking-tight inline font-semibold"}>
-                convenient
-            </span> tools<br/>with a few simple clicks.</>
+                            convenient
+                        </span> tools<br/>with a few simple clicks.</>
                     ) : (
                         <>Use <span
                             className={"gradient-text tracking-tight inline font-semibold"}>convenient</span> tools<br/>with
-                            a few simple clicks.</>
+                            a few simple clicks.
+                        </>
                     )}
                 </Typography>
                 <Typography
@@ -100,26 +101,39 @@ const LandingPage = ({mode, isLoggedIn}) => {
                     sx={{
                         color: theme.palette.text.secondary,
                         mb: 4,
-                        fontSize: {xs: '1rem', sm: '1.25rem'}
+                        fontSize: { xs: '1rem', sm: '1.25rem' },
                     }}
                 >
                     Rapid online tools for single user.
                 </Typography>
                 <div>
                     {isLoggedIn ? (
+                        // <Button variant="contained"
+                        //         color="primary"
+                        //         sx={{mr: 2}}
+                        //         onClick={() => navigate('/resources')}
+                        // >
+                        //     Go to Resources
+                        // </Button>
                         <></>
                     ) : (
                         <>
                             <Button variant="contained"
                                     color="primary"
-                                    sx={{mr: 2, width: {xs: '100%', sm: 'auto'}}}
+                                    sx={{
+                                        mr: { xs: 0, sm: 2},
+                                        width: { xs: '100%', sm: 'auto' },
+                                    }}
                                     onClick={() => navigate('/register')}
                             >
                                 Get Started
                             </Button>
                             <Button variant="outlined"
                                     color="secondary"
-                                    sx={{width: {xs: '100%', sm: 'auto'}}}
+                                    sx={{
+                                        mt: { xs: 1, sm: 0},
+                                        width: { xs: '100%', sm: 'auto' },
+                                    }}
                                     onClick={() => navigate('/login')}
                             >
                                 Already have an account? Log in.
@@ -127,19 +141,19 @@ const LandingPage = ({mode, isLoggedIn}) => {
                         </>
                     )}
                 </div>
+
                 <Box
                     sx={{
                         position: 'absolute',
                         bottom: '20px',
-                        left: '50%',
+                        left: { xs: '48%', sm: '50%'},
                         transform: 'translateX(-50%)',
-                        animation: 'bounce 2s infinite',
-                        display: {xs: 'block', md: 'none'}
+                        animation: 'bounce 2s infinite'
                     }}
                 >
                     <KeyboardDoubleArrowDownIcon
                         sx={{
-                            fontSize: '3rem',
+                            fontSize: { xs: '2rem', sm: '3rem'},
                             color: theme.palette.text.secondary
                         }}
                     />
@@ -180,7 +194,8 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                     gutterBottom
                                     sx={{
                                         fontWeight: 'bold',
-                                        color: theme.palette.text.primary
+                                        color: theme.palette.text.primary,
+                                        fontSize: { xs: '2rem', sm: '2.5rem', md: '3.5rem' }
                                     }}
                                 >
                                     {section.description1}
@@ -193,7 +208,8 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                     variant="h6"
                                     sx={{
                                         color: theme.palette.text.secondary,
-                                        mb: 4
+                                        mb: 4,
+                                        fontSize: { xs: '1rem', sm: '1.25rem' },
                                     }}
                                 >
                                     {section.description}
@@ -207,7 +223,10 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 </Button>
                             </Box>
                             {section.title === "Text" ?
-                                <Box sx={{flexBasis: '45%'}}>
+                                <Box sx={{
+                                    flexBasis: '45%',
+                                    display: { xs: 'none', md: 'block' }
+                                }}>
                                     <GroupFloatingInput/>
                                 </Box>
                                 :
