@@ -13,7 +13,7 @@ import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
 import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
-import RegisterPage from './Component/RegisterPage'
+import RegisterPage from './Component/RegisterPage';
 import './App.css';
 
 import {Route, Routes, useNavigate} from 'react-router-dom';
@@ -25,6 +25,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
 
     const themeMode = useMemo(() => theme(mode), [mode]);
 
@@ -33,6 +34,7 @@ function App() {
     };
 
     const navigate = useNavigate();
+
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
@@ -44,6 +46,12 @@ function App() {
             mediaQuery.removeEventListener('change', handleChange);
         };
     }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false);
+        navigate('/');
+    };
 
     return (
         <ThemeProvider theme={themeMode}>
@@ -85,9 +93,15 @@ function App() {
                         icon={<LightMode sx={{color: themeMode.palette.text.primary}}/>}
                         checkedIcon={<DarkMode sx={{color: themeMode.palette.text.primary}}/>}
                     />
-                    <Button color="inherit" onClick={() => navigate('/login')}>
-                        Login
-                    </Button>
+                    {isLoggedIn ? (
+                        <Button color="inherit" onClick={handleLogout}>
+                            Logout
+                        </Button>
+                    ) : (
+                        <Button color="inherit" onClick={() => navigate('/login')}>
+                            Login
+                        </Button>
+                    )}
                 </Toolbar>
             </AppBar>
             <Box component="main" sx={{
@@ -101,9 +115,9 @@ function App() {
                     : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
             }}>
                 <Routes>
-                    <Route path="/" element={<LandingPage mode={mode}/>}/>
-                    <Route path="/login" element={<LoginPage/>}/>
-                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/" element={<LandingPage mode={mode} isLoggedIn={isLoggedIn}/>}/>
+                    <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/register" element={<RegisterPage/>}/>
                 </Routes>
             </Box>
         </ThemeProvider>

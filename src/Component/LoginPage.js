@@ -4,7 +4,7 @@ import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import api from '../utils/api';
 
-const LoginPage = () => {
+const LoginPage = (setIsLoggedIn) => {
 
     const theme = useTheme();
     const [username, setUsername] = useState('');

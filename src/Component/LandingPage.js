@@ -3,8 +3,7 @@ import {Typography, Button, Container} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
-const LandingPage = ({mode}) => {
-
+const LandingPage = ({mode, isLoggedIn}) => {
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -16,7 +15,7 @@ const LandingPage = ({mode}) => {
             subTitle: "Text",
             buttonText: "Explore Text",
             buttonAction: () => navigate('/text'),
-            gradientClass:  "gradient-text2 tracking-tight inline font-semibold",
+            gradientClass: "gradient-text2 tracking-tight inline font-semibold",
         },
         {
             description1: "Manipulate and analyze words ",
@@ -43,7 +42,7 @@ const LandingPage = ({mode}) => {
             subTitle: "Text",
             buttonText: "Explore Resources",
             buttonAction: () => navigate('/resources'),
-            gradientClass:  "gradient-text5 tracking-tight inline font-semibold",
+            gradientClass: "gradient-text5 tracking-tight inline font-semibold",
         },
         {
             description1: "Discover the ",
@@ -52,9 +51,10 @@ const LandingPage = ({mode}) => {
             subTitle: "Text",
             buttonText: "Explore KisKis",
             buttonAction: () => navigate('/kiskis'),
-            gradientClass:  "gradient-text tracking-tight inline font-semibold",
+            gradientClass: "gradient-text tracking-tight inline font-semibold",
         },
     ];
+
 
     return (
         <div>
@@ -76,10 +76,16 @@ const LandingPage = ({mode}) => {
                         color: theme.palette.text.primary
                     }}
                 >
-                    Use <span
-                    className={"gradient-text tracking-tight inline font-semibold"}>convenient</span> tools
-                    <br/>
-                    with few simple clicks.
+                    {isLoggedIn ? (
+                        <>Welcome! Use <span className={"gradient-text tracking-tight inline font-semibold"}>
+                            convenient
+                        </span> tools<br/>with
+                            a few simple clicks.</>
+                    ) : (
+                        <>Use <span
+                            className={"gradient-text tracking-tight inline font-semibold"}>convenient</span> tools<br/>with
+                            a few simple clicks.</>
+                    )}
                 </Typography>
                 <Typography
                     variant="h6"
@@ -91,19 +97,32 @@ const LandingPage = ({mode}) => {
                     Rapid online tools for single user.
                 </Typography>
                 <div>
-                    <Button variant="contained"
-                            color="primary"
-                            sx={{mr: 2}}
-                            onClick={() => navigate('/register')}
-                    >
-                        Get Started
-                    </Button>
-                    <Button variant="outlined"
-                            color="secondary"
-                            onClick={() => navigate('/login')}
-                    >
-                        Already have an account? Log in.
-                    </Button>
+                    {isLoggedIn ? (
+                        // <Button variant="contained"
+                        //         color="primary"
+                        //         sx={{mr: 2}}
+                        //         onClick={() => navigate('/resources')}
+                        // >
+                        //     Go to Resources
+                        // </Button>
+                        <></>
+                    ) : (
+                        <>
+                            <Button variant="contained"
+                                    color="primary"
+                                    sx={{mr: 2}}
+                                    onClick={() => navigate('/register')}
+                            >
+                                Get Started
+                            </Button>
+                            <Button variant="outlined"
+                                    color="secondary"
+                                    onClick={() => navigate('/login')}
+                            >
+                                Already have an account? Log in.
+                            </Button>
+                        </>
+                    )}
                 </div>
             </Container>
 
