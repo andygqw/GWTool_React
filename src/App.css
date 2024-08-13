@@ -59,21 +59,21 @@
   color: transparent;
 }
 .gradient-text2 {
-  background: linear-gradient(90deg, #5A98EA, #327FEC);
+  background: linear-gradient(90deg, #7aaaea, #2575e6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
 }
 .gradient-text3 {
-  background: linear-gradient(90deg, #86E28E, #68CC77);
+  background: linear-gradient(90deg, #9ceaa2, #28c13f);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
 }
 .gradient-text4 {
-  background: linear-gradient(90deg, #F5B568, #EF7863);
+  background: linear-gradient(90deg, #F5B568,  #EF7863);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -88,7 +88,7 @@
 }
 
 .feature-card {
-  max-width: 60%;
+  max-width: 55%;
 }
 
 
