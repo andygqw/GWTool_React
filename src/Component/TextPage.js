@@ -5,6 +5,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';  // Icon for the 
 import api from '../utils/api';
 
 const TextPage = () => {
+
     const theme = useTheme();
     const [inputText, setInputText] = useState('');
     const [retrievedText, setRetrievedText] = useState('');
