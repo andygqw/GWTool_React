@@ -3,6 +3,7 @@ import {Button, TextField, Container, Typography, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import api from '../utils/api';
+import { EMAIL_PATTERN } from '../utils/helper';
 
 const RegisterPage = () => {
     const theme = useTheme();
@@ -17,6 +18,10 @@ const RegisterPage = () => {
         try {
             if (!username || !email || !password || !verifyPassword) {
                 throw new Error("All fields are required");
+            }
+
+            if (!EMAIL_PATTERN.test(email)) {
+                throw new Error("An valid email is required");
             }
 
             if (password !== verifyPassword) {
@@ -97,7 +102,7 @@ const RegisterPage = () => {
                     fullWidth
                     variant="outlined"
                     type="password"
-                    label="verifyPassword"
+                    label="Verify Password"
                     margin="normal"
                     value={verifyPassword}
                     onKeyPress={handleKeyPress}
