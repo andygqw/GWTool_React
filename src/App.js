@@ -91,7 +91,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Box component="main" sx={{
-                height: '100vh',
+                height: 'auto',
                 margin: 0,
                 display: 'flex',
                 alignItems: 'center',
