@@ -85,10 +85,10 @@ function App() {
                         GWTool
                     </Typography>
                     <Button color="inherit" onClick={() => navigate('/text')}>Text</Button>
-                    <Button color="inherit" onClick={() => navigate('/word')>Words</Button>
-                    <Button color="inherit" onClick={() => navigate('/file')>Files</Button>
-                    <Button color="inherit" onClick={() => navigate('/resource')>Resources</Button>
-                    <Button color="inherit" onClick={() => navigate('/kiskis')>KisKis</Button>
+                    <Button color="inherit" onClick={() => navigate('/word')}>Words</Button>
+                    <Button color="inherit" onClick={() => navigate('/file')}>Files</Button>
+                    <Button color="inherit" onClick={() => navigate('/resource')}>Resources</Button>
+                    <Button color="inherit" onClick={() => navigate('/kiskis')}>KisKis</Button>
                     <Switch
                         checked={mode === 'dark'}
                         onChange={toggleTheme}
