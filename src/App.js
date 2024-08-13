@@ -84,7 +84,7 @@ function App() {
                         }}>
                         GWTool
                     </Typography>
-                    <Button color="inherit">Text</Button>
+                    <Button color="inherit" onClick={() => navigate('/text')}>Text</Button>
                     <Button color="inherit">Words</Button>
                     <Button color="inherit">Files</Button>
                     <Button color="inherit">Resources</Button>
