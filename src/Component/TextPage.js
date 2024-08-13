@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Container, TextField, Button, Typography, Box} from '@mui/material';
+import {Container, TextField, Button, Typography, Box, IconButton} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
-import api from '../utils/api'; // Assume you're using the same api instance
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';  // Icon for the Copy button
+import api from '../utils/api';
 
 const TextPage = () => {
     const theme = useTheme();
@@ -22,12 +23,8 @@ const TextPage = () => {
         }
     };
 
-    const handleClear = async () => {
-        try {
-            setInputText('');
-        } catch (err) {
-            setError(err.message);
-        }
+    const handleClear = () => {
+        setInputText('');
     };
 
     const handleDeepClear = async () => {
@@ -43,14 +40,16 @@ const TextPage = () => {
         try {
             const response = await api.get('/text');
             setRetrievedText(response.data.text === null ? '' : response.data.text);
-        }
-        catch (err) {
+        } catch (err) {
             setError('Failed to retrieve text from the API.');
         }
     };
 
-    useEffect(() => {
+    const handleCopy = () => {
+        navigator.clipboard.writeText(retrievedText);
+    };
 
+    useEffect(() => {
         fetchText();
     }, []);
 
@@ -59,34 +58,44 @@ const TextPage = () => {
             height: '100vh',
             margin: 0,
             display: 'flex',
-            flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
             padding: 4,
+            background: theme.palette.mode === 'dark'
+                ? 'linear-gradient(to bottom right, #090909, #3C1945)'
+                : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
         }}>
-            <Container maxWidth="sm">
-                <Typography variant="h4" gutterBottom sx={{color: theme.palette.text.primary}}>
-                    Text Transfer
-                </Typography>
-                {error && <Typography color="error">{error}</Typography>}
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    label="Enter Text"
-                    value={inputText}
-                    onChange={(e) => setInputText(e.target.value)}
-                    margin="normal"
-                    multiline
-                    rows={4}
-                />
-                <Button variant="contained" color="primary" onClick={handleSubmit} sx={{mt: 2}}>
-                    Submit Text
-                </Button>
-                <Button variant="outlined" color="secondary" onClick={handleClear} sx={{mt: 2}}>
-                    Clear
-                </Button>
+            <Container maxWidth="lg" sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+            }}>
+                {/* Left Side - Input Text Field */}
+                <Box sx={{width: '48%'}}>
+                    <Typography variant="h5" gutterBottom sx={{color: theme.palette.text.primary}}>
+                        Enter Text
+                    </Typography>
+                    {error && <Typography color="error">{error}</Typography>}
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Enter Text"
+                        value={inputText}
+                        onChange={(e) => setInputText(e.target.value)}
+                        margin="normal"
+                        multiline
+                        rows={15}
+                    />
+                    <Button variant="contained" color="primary" onClick={handleSubmit} sx={{mt: 2}}>
+                        Submit Text
+                    </Button>
+                    <Button variant="outlined" color="secondary" onClick={handleClear} sx={{mt: 2, ml: 2}}>
+                        Clear
+                    </Button>
+                </Box>
 
-                <Box sx={{mt: 4}}>
+                {/* Right Side - Retrieved Text Field */}
+                <Box sx={{width: '48%'}}>
                     <Typography variant="h5" gutterBottom sx={{color: theme.palette.text.primary}}>
                         Retrieved Text
                     </Typography>
@@ -96,17 +105,22 @@ const TextPage = () => {
                         value={retrievedText}
                         margin="normal"
                         multiline
-                        rows={4}
+                        rows={15}
                         InputProps={{
                             readOnly: true,
                         }}
                     />
-                    <Button variant="contained" color="primary" onClick={fetchText} sx={{mt: 2}}>
-                        Retrieve Text
-                    </Button>
-                    <Button variant="outlined" color="secondary" onClick={handleDeepClear} sx={{mt: 2}}>
-                        Clear
-                    </Button>
+                    <Box sx={{display: 'flex', alignItems: 'center', mt: 2}}>
+                        <Button variant="contained" color="primary" onClick={fetchText}>
+                            Retrieve Text
+                        </Button>
+                        <Button variant="outlined" color="secondary" onClick={handleDeepClear} sx={{ml: 2}}>
+                            Clear
+                        </Button>
+                        <IconButton color="primary" onClick={handleCopy} sx={{ml: 2}}>
+                            <ContentCopyIcon/>
+                        </IconButton>
+                    </Box>
                 </Box>
             </Container>
         </Box>
