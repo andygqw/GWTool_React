@@ -54,18 +54,9 @@ const TextPage = () => {
     }, []);
 
     return (
-        <Box component="main" sx={{
-            height: '100vh',
-            margin: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 4,
-            background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(to bottom right, #090909, #3C1945)'
-                : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
-        }}>
             <Container maxWidth="lg" sx={{
+                margin: 0,
+                height: '100vh',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
@@ -94,7 +85,6 @@ const TextPage = () => {
                     </Button>
                 </Box>
 
-                {/* Right Side - Retrieved Text Field */}
                 <Box sx={{width: '48%'}}>
                     <Typography variant="h5" gutterBottom sx={{color: theme.palette.text.primary}}>
                         Retrieved Text
@@ -123,7 +113,6 @@ const TextPage = () => {
                     </Box>
                 </Box>
             </Container>
-        </Box>
     );
 };
 
