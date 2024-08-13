@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography, Button, Container} from '@mui/material';
+import {Typography, Button, Container, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
@@ -135,7 +135,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
 
             {sections.map((section, index) => (
 
-                <Container sx={{
+                <Container key={index} sx={{
                     textAlign: 'center',
                     margin: 0,
                     padding: 4,
@@ -146,46 +146,49 @@ const LandingPage = ({mode, isLoggedIn}) => {
                     alignItems: 'center',
                 }}>
                     <div className={'feature-section'}>
-                        <div className={'feature-card'}>
-                            <Typography
-                                variant="h3"
-                                component="h2"
-                                gutterBottom
-                                sx={{
-                                    fontWeight: 'bold',
-                                    color: theme.palette.text.primary
-                                }}
-                            >
-                                {section.description1}
-                                <span className={section.gradientClass}>
-                                {section.description2}
-                            </span>
-                                {section.description3}
-                            </Typography>
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    color: theme.palette.text.secondary,
-                                    mb: 4
-                                }}
-                            >
-                                {section.description}
-                            </Typography>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={section.buttonAction}
-                            >
-                                {section.buttonText}
-                            </Button>
-                        </div>
-                        { section.title === "Text" ?
-                            <div>
-                                <GroupFloatingInput/>
-                            </div>
-                            :
-                            <></>
-                        }
+                        <Box
+                            sx={{display: 'flex', justifyContent: 'space-around', alignItems: 'center', width: '100%'}}>
+                            <Box className={'feature-card'} sx={{flexBasis: '45%', textAlign: 'left'}}>
+                                <Typography
+                                    variant="h3"
+                                    component="h2"
+                                    gutterBottom
+                                    sx={{
+                                        fontWeight: 'bold',
+                                        color: theme.palette.text.primary
+                                    }}
+                                >
+                                    {section.description1}
+                                    <span className={section.gradientClass}>
+                                        {section.description2}
+                                    </span>
+                                    {section.description3}
+                                </Typography>
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        color: theme.palette.text.secondary,
+                                        mb: 4
+                                    }}
+                                >
+                                    {section.description}
+                                </Typography>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={section.buttonAction}
+                                >
+                                    {section.buttonText}
+                                </Button>
+                            </Box>
+                            {section.title === "Text" ?
+                                <Box sx={{flexBasis: '45%'}}>
+                                    <GroupFloatingInput/>
+                                </Box>
+                                :
+                                <></>
+                            }
+                        </Box>
                     </div>
                 </Container>
             ))}
