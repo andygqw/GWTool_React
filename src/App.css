@@ -56,9 +56,6 @@
   align-items: center;
 }
 
-.feature-card {
-  max-width: 55%;
-}
 
 
 @media (min-width: 768px) {
