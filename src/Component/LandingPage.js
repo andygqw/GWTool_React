@@ -10,11 +10,11 @@ const LandingPage = ({mode}) => {
 
     const sections = [
         {
-            description1: "Text transferring experience ",
+            description1: "Text transferring ",
             description2: "without ",
             description3: "log in.",
             subTitle: "Text",
-            buttonText: "Explore Text Tools",
+            buttonText: "Explore Text",
             buttonAction: () => navigate('/text'),
             gradientClass:  "gradient-text2 tracking-tight inline font-semibold",
         },
@@ -23,7 +23,7 @@ const LandingPage = ({mode}) => {
             description2: "effortlessly.",
             description3: "",
             subTitle: "Text",
-            buttonText: "Explore Words Tools",
+            buttonText: "Explore Words",
             buttonAction: () => navigate('/words'),
             gradientClass: "gradient-text3 tracking-tight inline font-semibold",
         },
@@ -32,7 +32,7 @@ const LandingPage = ({mode}) => {
             description2: "files ",
             description3: "with ease and efficiency.",
             subTitle: "Text",
-            buttonText: "Explore Files Tools",
+            buttonText: "Explore Files",
             buttonAction: () => navigate('/files'),
             gradientClass: "gradient-text4 tracking-tight inline font-semibold",
         },
