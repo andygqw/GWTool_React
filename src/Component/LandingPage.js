@@ -12,6 +12,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
 
     const sections = [
         {
+            title: "Text",
             description1: "Text transferring ",
             description2: "without ",
             description3: "log in.",
@@ -21,6 +22,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             gradientClass: "gradient-text2 tracking-tight inline font-semibold",
         },
         {
+            title: "Word",
             description1: "Manipulate and analyze words ",
             description2: "effortlessly.",
             description3: "",
@@ -30,6 +32,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             gradientClass: "gradient-text3 tracking-tight inline font-semibold",
         },
         {
+            title: "File",
             description1: "Manage ",
             description2: "files ",
             description3: "with ease and efficiency.",
@@ -39,6 +42,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             gradientClass: "gradient-text4 tracking-tight inline font-semibold",
         },
         {
+            title: "Resources",
             description1: "Access a ",
             description2: "wide range ",
             description3: "of resources.",
@@ -48,6 +52,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             gradientClass: "gradient-text5 tracking-tight inline font-semibold",
         },
         {
+            title: "KisKis",
             description1: "Discover the ",
             description2: "unique ",
             description3: "KisKis features.",
@@ -57,7 +62,6 @@ const LandingPage = ({mode, isLoggedIn}) => {
             gradientClass: "gradient-text tracking-tight inline font-semibold",
         },
     ];
-
 
     return (
         <div>
@@ -175,7 +179,13 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 {section.buttonText}
                             </Button>
                         </div>
-                        <GroupFloatingInput/>
+                        { section.title === "Text" ?
+                            <div>
+                                <GroupFloatingInput/>
+                            </div>
+                            :
+                            <></>
+                        }
                     </div>
                 </Container>
             ))}

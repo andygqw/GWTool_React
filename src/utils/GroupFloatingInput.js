@@ -17,7 +17,6 @@ const GroupFloatingInput = () => {
                 width: '100%',
                 minHeight: '350px',
                 position: 'relative',
-                //overflow: 'hidden',
                 ml: 4,
             }}
         >
