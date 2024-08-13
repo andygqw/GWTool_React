@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Typography, Button, Container} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
-import FloatingInput from '../utils/FloatingInput';
+import GroupFloatingInput from '../utils/GroupFloatingInput';
 
 const LandingPage = ({mode, isLoggedIn}) => {
 
     const theme = useTheme();
     const navigate = useNavigate();
-
-    const [demoInput1, setDemoInput1] = useState('GWTool');
 
     const sections = [
         {
@@ -177,12 +175,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 {section.buttonText}
                             </Button>
                         </div>
-                        <FloatingInput
-                            label="Text Transfer"
-                            value={demoInput1}
-                            sx={{top: '20%', left: '10%'}}
-                            onChange={(e) => setDemoInput1(e.target.value)}
-                        />
+                        <GroupFloatingInput/>
                     </div>
                 </Container>
             ))}
