@@ -11,6 +11,7 @@ import {
 } from '@mui/material';
 import {DarkMode, LightMode} from '@mui/icons-material';
 import {theme} from './theme';
+import NotFoundPage from './Component/NotFoundPage';
 import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
 import RegisterPage from './Component/RegisterPage';
@@ -118,6 +119,7 @@ function App() {
                     <Route path="/" element={<LandingPage mode={mode} isLoggedIn={isLoggedIn}/>}/>
                     <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Box>
         </ThemeProvider>
