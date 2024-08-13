@@ -4,7 +4,7 @@ import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 import api from '../utils/api';
 
-const LoginPage = (setIsLoggedIn) => {
+const LoginPage = ({ setIsLoggedIn }) => {
 
     const theme = useTheme();
     const [username, setUsername] = useState('');
@@ -15,6 +15,10 @@ const LoginPage = (setIsLoggedIn) => {
     const handleLogin = async () => {
         try {
 
+            if(!username || !password){
+                throw new Error("All fields are required");
+            }
+
             const response = await api.post('/login',
                 {username, password},
                 {
@@ -24,6 +28,7 @@ const LoginPage = (setIsLoggedIn) => {
                 });
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
+                setIsLoggedIn(true);
                 navigate('/');
             } else {
                 throw new Error(response.data.error);
@@ -57,6 +62,7 @@ const LoginPage = (setIsLoggedIn) => {
                 <Typography variant="h4" gutterBottom>
                     Log In
                 </Typography>
+                {error && <Typography color="error" variant="body2">{error}</Typography>}
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -76,7 +82,6 @@ const LoginPage = (setIsLoggedIn) => {
                     onKeyPress={handleKeyPress}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {error && <Typography color="error" variant="body2">{error}</Typography>}
                 <Button
                     fullWidth
                     variant="contained"

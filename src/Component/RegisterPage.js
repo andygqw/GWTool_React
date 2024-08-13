@@ -9,11 +9,21 @@ const RegisterPage = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [verifyPassword, setVerifyPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
     const handleRegister = async () => {
         try {
+            if (!username || !email || !password || !verifyPassword) {
+                throw new Error("All fields are required");
+            }
+
+            if (password !== verifyPassword) {
+
+                throw new Error("Two passwords don't match");
+            }
+
             const response = await api.post('/register', {username, email, password}, {
                 validateStatus: function (status) {
                     return status >= 200 && status <= 500;
@@ -21,7 +31,7 @@ const RegisterPage = () => {
             });
 
             if (response.status === 200) {
-                navigate('/');
+                navigate('/login');
             } else {
                 throw new Error(response.data.error);
             }
@@ -53,6 +63,7 @@ const RegisterPage = () => {
                 <Typography variant="h4" gutterBottom>
                     Register
                 </Typography>
+                {error && <Typography color="error" variant="body2">{error}</Typography>}
                 <TextField
                     fullWidth
                     variant="outlined"
@@ -82,7 +93,16 @@ const RegisterPage = () => {
                     onKeyPress={handleKeyPress}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                {error && <Typography color="error" variant="body2">{error}</Typography>}
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    type="password"
+                    label="verifyPassword"
+                    margin="normal"
+                    value={verifyPassword}
+                    onKeyPress={handleKeyPress}
+                    onChange={(e) => setVerifyPassword(e.target.value)}
+                />
                 <Button
                     fullWidth
                     variant="contained"
