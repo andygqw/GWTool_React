@@ -55,7 +55,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         }}>
             <Container maxWidth="xs" sx={{
                 textAlign: 'center',
-                backgroundColor: theme.palette.background.paper,
+                backgroundColor: { xs: 'transparent', sm: theme.palette.background.paper},
                 padding: 4,
                 borderRadius: 2,
             }}>
