@@ -9,13 +9,13 @@ const FloatingInput = ({label, value, onChange, sx, float}) => {
                 width: 'fit-content',
                 display: 'flex',
                 flexDirection: 'column',
-                ...sx,
                 animation: `${float} 8s ease-in-out infinite`,
+                ...sx,
             }}
             noValidate
             autoComplete="off"
         >
-            <Typography variant="subtitle1" sx={{
+            <Typography variant="subtitle2" sx={{
                 color: 'text.secondary',
                 textAlign: 'left',
             }}>
@@ -24,6 +24,7 @@ const FloatingInput = ({label, value, onChange, sx, float}) => {
             <TextField color="primary"
                        variant="outlined"
                        value={value}
+                       size="small"
                        onChange={onChange}
             />
         </Box>
