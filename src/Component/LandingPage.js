@@ -1,5 +1,6 @@
 import React from 'react';
 import {Typography, Button, Container, Box} from '@mui/material';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
@@ -131,6 +132,35 @@ const LandingPage = ({mode, isLoggedIn}) => {
                         </>
                     )}
                 </div>
+
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        bottom: '20px',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        animation: 'bounce 2s infinite'
+                    }}
+                >
+                    <KeyboardDoubleArrowDownIcon
+                        sx={{
+                            fontSize: '3rem',
+                            color: theme.palette.text.secondary
+                        }}
+                    />
+                </Box>
+                <style>
+                    {`
+                        @keyframes bounce {
+                            0%, 100% {
+                                transform: translateY(0);
+                            }
+                            50% {
+                                transform: translateY(-10px);
+                            }
+                        }
+                    `}
+                </style>
             </Container>
 
             {sections.map((section, index) => (
