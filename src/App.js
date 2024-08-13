@@ -15,6 +15,7 @@ import NotFoundPage from './Component/NotFoundPage';
 import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
 import RegisterPage from './Component/RegisterPage';
+import TextPage from './Component/TextPage';
 import './App.css';
 
 import {Route, Routes, useNavigate} from 'react-router-dom';
@@ -119,6 +120,7 @@ function App() {
                     <Route path="/" element={<LandingPage mode={mode} isLoggedIn={isLoggedIn}/>}/>
                     <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/register" element={<RegisterPage/>}/>
+                    <Route path="/text" element={<TextPage/>}/>
                     <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Box>
