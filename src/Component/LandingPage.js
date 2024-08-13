@@ -1,11 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Typography, Button, Container} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
+import FloatingInput from '../utils/FloatingInput';
+
 const LandingPage = ({mode, isLoggedIn}) => {
+
     const theme = useTheme();
     const navigate = useNavigate();
+
+    const [demoInput1, setDemoInput1] = useState('GWTool');
 
     const sections = [
         {
@@ -138,38 +143,46 @@ const LandingPage = ({mode, isLoggedIn}) => {
                     justifyContent: 'center',
                     alignItems: 'center',
                 }}>
-                    <div className={'feature-card'}>
-                        <Typography
-                            variant="h3"
-                            component="h2"
-                            gutterBottom
-                            sx={{
-                                fontWeight: 'bold',
-                                color: theme.palette.text.primary
-                            }}
-                        >
-                            {section.description1}
-                            <span className={section.gradientClass}>
+                    <div className={'feature-section'}>
+                        <div className={'feature-card'}>
+                            <Typography
+                                variant="h3"
+                                component="h2"
+                                gutterBottom
+                                sx={{
+                                    fontWeight: 'bold',
+                                    color: theme.palette.text.primary
+                                }}
+                            >
+                                {section.description1}
+                                <span className={section.gradientClass}>
                                 {section.description2}
                             </span>
-                            {section.description3}
-                        </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                color: theme.palette.text.secondary,
-                                mb: 4
-                            }}
-                        >
-                            {section.description}
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={section.buttonAction}
-                        >
-                            {section.buttonText}
-                        </Button>
+                                {section.description3}
+                            </Typography>
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    color: theme.palette.text.secondary,
+                                    mb: 4
+                                }}
+                            >
+                                {section.description}
+                            </Typography>
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                onClick={section.buttonAction}
+                            >
+                                {section.buttonText}
+                            </Button>
+                        </div>
+                        <FloatingInput
+                            label="Text Transfer"
+                            value={demoInput1}
+                            sx={{top: '20%', left: '10%'}}
+                            onChange={(e) => setDemoInput1(e.target.value)}
+                        />
                     </div>
                 </Container>
             ))}
