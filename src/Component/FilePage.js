@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import {Container, Button, Typography, Box, List, ListItem, ListItemIcon, ListItemText, Checkbox} from '@mui/material';
+import {
+    Container, Button, Typography, Box, List, ListItem,
+    ListItemIcon, ListItemText, Checkbox, CircularProgress
+} from '@mui/material';
 import {useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
@@ -9,7 +12,7 @@ const FilePage = ({isLoggedIn}) => {
     const theme = useTheme();
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
-    const [uploading, setUploading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
@@ -28,14 +31,17 @@ const FilePage = ({isLoggedIn}) => {
                     }
                 });
             if (response.status === 200) {
-                setFiles(response.data.objects);
+                setFiles(response.data);
             } else if (response.status === 401) {
+                localStorage.removeItem('token');
                 navigate('/login');
             } else {
                 throw new Error(response.data.error);
             }
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -48,7 +54,6 @@ const FilePage = ({isLoggedIn}) => {
         }
 
         try {
-            setUploading(true);
             const response = await api.put('/file',
                 formData,
                 {
@@ -58,13 +63,14 @@ const FilePage = ({isLoggedIn}) => {
                 });
             if (response.status === 200) {
                 await fetchFiles();
+            } else if (response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/login');
             } else {
                 throw new Error(response.data.error);
             }
         } catch (err) {
             setError(err.message);
-        } finally {
-            setUploading(false);
         }
     };
 
@@ -88,6 +94,9 @@ const FilePage = ({isLoggedIn}) => {
                 });
             if (response.status === 200) {
                 await fetchFiles();
+            } else if (response.status === 401) {
+                localStorage.removeItem('token');
+                navigate('/login');
             } else {
                 throw new Error(response.data.error);
             }
@@ -98,9 +107,18 @@ const FilePage = ({isLoggedIn}) => {
         }
     };
 
+    if (loading) {
+        return (
+            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+                <CircularProgress/>
+            </Box>
+        );
+    }
+
     return (
         <Box sx={{
-            height: {xs: 'auto', sm: '100vh'},
+            minHeight: '100vh',
+            height: 'auto',
             margin: 0,
             display: 'flex',
             alignItems: 'center',
@@ -133,7 +151,6 @@ const FilePage = ({isLoggedIn}) => {
                     />
                 </Button>
 
-                {uploading && <Typography variant="body2">Uploading...</Typography>}
 
                 <List sx={{textAlign: 'left', maxHeight: '400px', overflowY: 'auto', mt: 3}}>
                     {files.map((file) => (
@@ -148,9 +165,10 @@ const FilePage = ({isLoggedIn}) => {
                                 />
                             </ListItemIcon>
                             <ListItemText
-                                primary={file.name}
-                                secondary={<a href={file.key}
-                                              rel="noopener noreferrer">Download</a>}
+                                primary={
+                                    <a href={file.url} rel="noopener noreferrer" download>{file.key}</a>
+                                }
+                                secondary={<>{file.size} bytes</>}
                             />
                         </ListItem>
                     ))}
