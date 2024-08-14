@@ -22,6 +22,7 @@ import LoginPage from './Component/LoginPage';
 import RegisterPage from './Component/RegisterPage';
 import TextPage from './Component/TextPage';
 import WordPage from './Component/WordPage';
+import FilePage from './Component/FilePage';
 import {Route, Routes, useNavigate} from 'react-router-dom';
 import './App.css';
 
@@ -183,6 +184,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/text" element={<TextPage/>}/>
                     <Route path="/word" element={<WordPage/>}/>
+                    <Route path="/file" element={<FilePage/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Box>
