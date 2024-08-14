@@ -17,8 +17,16 @@ const TextPage = () => {
                 throw new Error('Please enter some text before submitting.');
             }
 
-            await api.post('/text', {text: inputText});
-            await fetchText();
+            const response = await api.post('/text', {text: inputText}, {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
+            if (response.status === 200) {
+                await fetchText();
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
             setError(err.message);
         }
@@ -30,8 +38,16 @@ const TextPage = () => {
 
     const handleDeepClear = async () => {
         try {
-            await api.delete('/text');
-            await fetchText();
+            const response = await api.delete('/text', {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
+            if (response.status === 200) {
+                await fetchText();
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
             setError(err.message);
         }
@@ -39,8 +55,17 @@ const TextPage = () => {
 
     const fetchText = async () => {
         try {
-            const response = await api.get('/text');
-            setRetrievedText(response.data.text === null ? '' : response.data.text);
+            const response = await api.get('/text', {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
+            if (response.status === 200) {
+
+                setRetrievedText(response.data.text === null ? '' : response.data.text);
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
             setError('Failed to retrieve text from the API.');
         }

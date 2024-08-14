@@ -4,6 +4,7 @@ import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
 
 const FilePage = () => {
+
     const theme = useTheme();
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
