@@ -14,7 +14,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isEmpty, setIsEmpty] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
@@ -34,13 +33,10 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 });
             if (response.status === 200) {
                 setFiles(response.data);
-                setIsEmpty(false);
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
                 navigate('/login');
-            } else if (response.status === 204) {
-                setIsEmpty(true);
             } else {
                 throw new Error(response.data.error);
             }
@@ -188,7 +184,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 </Button>
 
 
-                {isEmpty ? (
+                {files.length === 0 ? (
                     <Typography variant="body1">No files available.</Typography>
                 ) : (
                     <List sx={{textAlign: 'left', maxHeight: '400px', overflowY: 'auto', mt: 3}}>
