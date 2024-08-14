@@ -6,6 +6,7 @@ import {
 import {useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
+import axios from 'axios';
 
 const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
 
@@ -53,20 +54,34 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const handleUpload = async (event) => {
 
         const uploadedFiles = event.target.files;
-        const formData = new FormData();
+        const keys = [];
         for (let file of uploadedFiles) {
-            formData.append('files', file);
+            keys.push(file.name);
         }
 
         try {
             const response = await api.put('/file',
-                formData,
+                { keys: keys},
                 {
                     validateStatus: function (status) {
                         return status >= 200 && status <= 500;
                     }
                 });
             if (response.status === 200) {
+
+                const presignedUrls = response.data.result;
+
+                for (let i = 0; i < uploadedFiles.length; i++) {
+                    const file = uploadedFiles[i];
+                    const presignedUrl = presignedUrls[i].url;
+
+                    await axios.put(presignedUrl, file, {
+                        headers: {
+                            'Content-Type': file.type,
+                        },
+                    });
+                }
+
                 await fetchFiles();
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
