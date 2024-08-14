@@ -72,13 +72,15 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                     const file = uploadedFiles[i];
                     const presignedUrl = presignedUrls[i].url;
 
-                    await axios.put(presignedUrl, file, {
-                        headers: {
-                            'Content-Type': file.type,
-                        },
-                    });
-                }
+                    if (file.name === presignedUrls[i].key){
 
+                        await axios.put(presignedUrl, file, {
+                            headers: {
+                                'Content-Type': file.type,
+                            },
+                        });
+                    }
+                }
                 await fetchFiles();
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
@@ -187,9 +189,16 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 {files.length === 0 ? (
                     <Typography variant="body1">No files available.</Typography>
                 ) : (
-                    <List sx={{textAlign: 'left', maxHeight: '400px', overflowY: 'auto', mt: 3}}>
+                    <List sx={{
+                        textAlign: 'left',
+                        maxHeight: '300px',
+                        overflowY: 'auto',
+                        mt: 3,
+                        border: `1px solid ${theme.palette.divider}`,
+                        padding: 2,
+                    }}>
                         {files.map((file) => (
-                            <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
+                            <ListItem key={file.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <ListItemIcon>
                                     <Checkbox
                                         edge="start"
@@ -201,8 +210,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                                 </ListItemIcon>
                                 <ListItemText
                                     primary={
-                                        <a href={file.url} rel="noopener noreferrer" download
-                                           style={{color: theme.palette.text.primary}}>
+                                        <a href={file.url} rel="noopener noreferrer" download style={{ color: theme.palette.text.primary }}>
                                             {file.key}
                                         </a>
                                     }
