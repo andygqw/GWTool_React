@@ -39,7 +39,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
                 navigate('/login');
-            } else if (response.status === 204){
+            } else if (response.status === 204) {
                 setIsEmpty(true);
             } else {
                 throw new Error(response.data.error);
@@ -62,7 +62,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         try {
             setLoading(true);
             const response = await api.put('/file',
-                { keys: keys},
+                {keys: keys},
                 {
                     validateStatus: function (status) {
                         return status >= 200 && status <= 500;
@@ -131,6 +131,18 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             setSelectedFiles([]);
         }
     };
+    const formatFileSize = (sizeInBytes) => {
+        const sizeInMB = sizeInBytes / (1024 * 1024);
+        if (sizeInMB < 1) {
+            return `${(sizeInBytes / 1024).toFixed(2)} KB`;
+        } else if (sizeInMB < 1024) {
+            return `${sizeInMB.toFixed(2)} MB`;
+        } else {
+            const sizeInGB = sizeInMB / 1024;
+            return `${sizeInGB.toFixed(2)} GB`;
+        }
+    };
+
 
     if (loading) {
         return (
@@ -139,8 +151,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             </Box>
         );
     }
-
-
     return (
         <Box sx={{
             minHeight: '100vh',
@@ -178,27 +188,34 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 </Button>
 
 
-                <List sx={{textAlign: 'left', maxHeight: '400px', overflowY: 'auto', mt: 3}}>
-                    {files.map((file) => (
-                        <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
-                            <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    checked={selectedFiles.includes(file)}
-                                    tabIndex={-1}
-                                    disableRipple
-                                    onChange={() => handleSelectFile(file)}
+                {isEmpty ? (
+                    <Typography variant="body1">No files available.</Typography>
+                ) : (
+                    <List sx={{textAlign: 'left', maxHeight: '400px', overflowY: 'auto', mt: 3}}>
+                        {files.map((file) => (
+                            <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
+                                <ListItemIcon>
+                                    <Checkbox
+                                        edge="start"
+                                        checked={selectedFiles.includes(file)}
+                                        tabIndex={-1}
+                                        disableRipple
+                                        onChange={() => handleSelectFile(file)}
+                                    />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={
+                                        <a href={file.url} rel="noopener noreferrer" download
+                                           style={{color: theme.palette.text.primary}}>
+                                            {file.key}
+                                        </a>
+                                    }
+                                    secondary={<>{formatFileSize(file.size)}</>}
                                 />
-                            </ListItemIcon>
-                            <ListItemText
-                                primary={
-                                    <a href={file.url} rel="noopener noreferrer" download>{file.key}</a>
-                                }
-                                secondary={<>{file.size} bytes</>}
-                            />
-                        </ListItem>
-                    ))}
-                </List>
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
 
                 <Button
                     variant="contained"
