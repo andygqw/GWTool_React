@@ -7,12 +7,13 @@ import {useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
 
-const FilePage = ({isLoggedIn}) => {
+const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
 
     const theme = useTheme();
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isEmpty, setIsEmpty] = useState(false);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
@@ -32,9 +33,13 @@ const FilePage = ({isLoggedIn}) => {
                 });
             if (response.status === 200) {
                 setFiles(response.data);
+                setIsEmpty(false);
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
+                setIsLoggedIn(false);
                 navigate('/login');
+            } else if (response.status === 204){
+                setIsEmpty(true);
             } else {
                 throw new Error(response.data.error);
             }
@@ -65,6 +70,7 @@ const FilePage = ({isLoggedIn}) => {
                 await fetchFiles();
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
+                setIsLoggedIn(false);
                 navigate('/login');
             } else {
                 throw new Error(response.data.error);
@@ -96,6 +102,7 @@ const FilePage = ({isLoggedIn}) => {
                 await fetchFiles();
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
+                setIsLoggedIn(false);
                 navigate('/login');
             } else {
                 throw new Error(response.data.error);
@@ -111,6 +118,14 @@ const FilePage = ({isLoggedIn}) => {
         return (
             <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
                 <CircularProgress/>
+            </Box>
+        );
+    }
+
+    if (isEmpty) {
+        return (
+            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+
             </Box>
         );
     }

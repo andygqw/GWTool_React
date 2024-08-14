@@ -184,7 +184,7 @@ function App() {
                     <Route path="/register" element={<RegisterPage/>}/>
                     <Route path="/text" element={<TextPage/>}/>
                     <Route path="/word" element={<WordPage/>}/>
-                    <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn}/>}/>
+                    <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Box>

@@ -150,7 +150,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
                     sx={{
                         position: 'absolute',
                         bottom: '20px',
-                        left: {xs: '48%', sm: '50%'},
+                        left: '48%',
                         transform: 'translateX(-50%)',
                         animation: 'bounce 2s infinite'
                     }}
