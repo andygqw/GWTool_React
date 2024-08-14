@@ -1,30 +1,46 @@
 import React, {useState, useEffect} from 'react';
 import {Container, Button, Typography, Box, List, ListItem, ListItemIcon, ListItemText, Checkbox} from '@mui/material';
+import {useNavigate} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
 
-const FilePage = () => {
+const FilePage = ({isLoggedIn}) => {
 
     const theme = useTheme();
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
+    const navigate = useNavigate();
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchFiles();
-    }, []);
+            isLoggedIn ? fetchFiles() : navigate('/login');
+            setError('');
+        },
+        [isLoggedIn, navigate]);
 
     const fetchFiles = async () => {
         try {
-            const response = await api.get('/files');
-            setFiles(response.data);
+            const response = await api.get('/file',
+                {
+                    validateStatus: function (status) {
+                        return status >= 200 && status <= 500;
+                    }
+                });
+            if (response.status === 200) {
+                setFiles(response.data.objects);
+            } else if (response.status === 401) {
+                navigate('/login');
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
-            setError('Failed to fetch files.');
+            setError(err.message);
         }
     };
 
     const handleUpload = async (event) => {
+
         const uploadedFiles = event.target.files;
         const formData = new FormData();
         for (let file of uploadedFiles) {
@@ -33,11 +49,21 @@ const FilePage = () => {
 
         try {
             setUploading(true);
-            await api.post('/upload', formData);
-            setUploading(false);
-            fetchFiles(); // Refresh the file list
+            const response = await api.put('/file',
+                formData,
+                {
+                    validateStatus: function (status) {
+                        return status >= 200 && status <= 500;
+                    }
+                });
+            if (response.status === 200) {
+                await fetchFiles();
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
-            setError('Failed to upload files.');
+            setError(err.message);
+        } finally {
             setUploading(false);
         }
     };
@@ -53,25 +79,33 @@ const FilePage = () => {
 
     const handleDelete = async () => {
         try {
-            await api.delete('/files', {data: {files: selectedFiles}});
-            fetchFiles(); // Refresh the file list
-            setSelectedFiles([]); // Clear selection
+            const response = await api.delete('/files',
+                {keys: selectedFiles},
+                {
+                    validateStatus: function (status) {
+                        return status >= 200 && status <= 500;
+                    }
+                });
+            if (response.status === 200) {
+                await fetchFiles();
+            } else {
+                throw new Error(response.data.error);
+            }
         } catch (err) {
-            setError('Failed to delete files.');
+            setError(err.message);
+        } finally {
+            setSelectedFiles([]);
         }
     };
 
     return (
         <Box sx={{
-            height: '100vh',
+            height: {xs: 'auto', sm: '100vh'},
             margin: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             padding: 4,
-            background: theme.palette.mode === 'dark'
-                ? 'linear-gradient(to bottom right, #090909, #3C1945)'
-                : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
         }}>
             <Container maxWidth="md" sx={{
                 textAlign: 'center',
@@ -115,7 +149,7 @@ const FilePage = () => {
                             </ListItemIcon>
                             <ListItemText
                                 primary={file.name}
-                                secondary={<a href={file.downloadUrl} target="_blank"
+                                secondary={<a href={file.key}
                                               rel="noopener noreferrer">Download</a>}
                             />
                         </ListItem>
