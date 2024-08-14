@@ -3,6 +3,8 @@ import {Typography, Button, Container, Box} from '@mui/material';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
+
 
 import GroupFloatingInput from '../utils/GroupFloatingInput';
 import FloatingWordForm from "../utils/FloatingWordForm";
@@ -11,6 +13,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
 
     const theme = useTheme();
     const navigate = useNavigate();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.up('sm'));
 
     const sections = [
         {
@@ -227,24 +230,18 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                     {section.buttonText}
                                 </Button>
                             </Box>
-                            {section.title === "Text" ?
+                            {section.title === "Text" && isSmallScreen &&
                                 <Box sx={{
                                     flexBasis: '45%',
-                                    display: {xs: 'none', md: 'block'}
                                 }}>
                                     <GroupFloatingInput/>
                                 </Box>
-                                :
-                                <></>
                             }
-                            {section.title === "Word" ?
+                            {section.title === "Word" && isSmallScreen &&
                                 <Box sx={{
-                                    display: {xs: 'none', md: 'block'}
                                 }}>
                                     <FloatingWordForm label="Word Replacement"/>
                                 </Box>
-                                :
-                                <></>
                             }
                         </Box>
                     </div>
