@@ -5,6 +5,7 @@ import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
 
 import GroupFloatingInput from '../utils/GroupFloatingInput';
+import FloatingWordForm from "../utils/FloatingWordForm";
 
 const LandingPage = ({mode, isLoggedIn}) => {
 
@@ -232,6 +233,15 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                     display: {xs: 'none', md: 'block'}
                                 }}>
                                     <GroupFloatingInput/>
+                                </Box>
+                                :
+                                <></>
+                            }
+                            {section.title === "Word" ?
+                                <Box sx={{
+                                    display: {xs: 'none', md: 'block'}
+                                }}>
+                                    <FloatingWordForm label="Word Replacement"/>
                                 </Box>
                                 :
                                 <></>

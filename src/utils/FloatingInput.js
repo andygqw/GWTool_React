@@ -9,7 +9,7 @@ const FloatingInput = ({label, value, onChange, sx, float}) => {
                 width: 'fit-content',
                 display: 'flex',
                 flexDirection: 'column',
-                animation: `${float} 8s ease-in-out infinite`,
+                animation: `${float} 6s ease-in-out infinite`,
                 ...sx,
             }}
             noValidate
