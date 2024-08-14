@@ -60,6 +60,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         }
 
         try {
+            setLoading(true);
             const response = await api.put('/file',
                 { keys: keys},
                 {
@@ -92,6 +93,8 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             }
         } catch (err) {
             setError(err.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -106,7 +109,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
 
     const handleDelete = async () => {
         try {
-            const response = await api.delete('/files',
+            const response = await api.delete('/file',
                 {keys: selectedFiles},
                 {
                     validateStatus: function (status) {
@@ -137,13 +140,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         );
     }
 
-    if (isEmpty) {
-        return (
-            <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
-
-            </Box>
-        );
-    }
 
     return (
         <Box sx={{
