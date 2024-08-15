@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
     Container, Button, Typography, Box, List, ListItem,
     ListItemIcon, ListItemText, Checkbox, CircularProgress
@@ -17,20 +17,13 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const navigate = useNavigate();
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-            isLoggedIn ? fetchFiles() : navigate('/login');
-            setError('');
-        },
-        [fetchFiles, isLoggedIn, navigate]);
-
-    const fetchFiles = async () => {
+    const fetchFiles = useCallback(async () => {
         try {
-            const response = await api.get('/file',
-                {
-                    validateStatus: function (status) {
-                        return status >= 200 && status <= 500;
-                    }
-                });
+            const response = await api.get('/file', {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
             if (response.status === 200) {
                 setFiles(response.data);
             } else if (response.status === 401) {
@@ -45,7 +38,17 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         } finally {
             setLoading(false);
         }
-    };
+    }, [navigate, setIsLoggedIn]);  // Dependencies for useCallback
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            fetchFiles();
+        } else {
+            navigate('/login');
+        }
+        setError('');
+    }, [isLoggedIn, fetchFiles, navigate]);
+
 
     const handleUpload = async (event) => {
 
