@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import {
     Container, Button, Typography, Box, List, ListItem,
+    Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     ListItemIcon, ListItemText, Checkbox, CircularProgress
 } from '@mui/material';
 import {useNavigate} from 'react-router-dom';
@@ -16,6 +17,8 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [error, setError] = useState(null);
+
+    const [openDialog, setOpenDialog] = useState(false);
 
     const fetchFiles = useCallback(async () => {
         try {
@@ -74,6 +77,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 for (let i = 0; i < uploadedFiles.length; i++) {
                     const file = uploadedFiles[i];
                     const presignedUrl = presignedUrls[i].url;
+                    console.log(presignedUrl);
 
                     if (file.name === presignedUrls[i].key) {
 
@@ -256,12 +260,40 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                             color="secondary"
                             sx={{mt: 3}}
                             disabled={selectedFiles.length === 0}
-                            onClick={handleDelete}
+                            onClick={() => setOpenDialog(true)}
                         >
                             Delete Selected
                         </Button>
                     </>
                 )}
+
+                <Dialog
+                    open={openDialog}
+                    onClose={() => setOpenDialog(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">{"Confirm Deletion"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete the selected {selectedFiles.length} file(s)?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => setOpenDialog(false)} color="primary">
+                            Cancel
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setOpenDialog(false);
+                                handleDelete();
+                            }}
+                            color="secondary" autoFocus
+                        >
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </Container>
         </Box>
     );
