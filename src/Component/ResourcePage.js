@@ -51,7 +51,7 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
 
     const handleFolderClick = (folderName) => {
 
-        setCurrentPath((prevPath) => `${prevPath}${folderName}/`);
+        setCurrentPath(folderName);
         fetchResources(currentPath);
     };
 
