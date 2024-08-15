@@ -8,6 +8,7 @@ import { useMediaQuery } from '@mui/material';
 
 import GroupFloatingInput from '../utils/GroupFloatingInput';
 import FloatingWordForm from "../utils/FloatingWordForm";
+import FloatingDragUpload from "../utils/FloatingDragUpload";
 
 const LandingPage = ({mode, isLoggedIn}) => {
 
@@ -43,7 +44,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             description3: "with ease and efficiency.",
             description: "Multi-purposes file storage.",
             buttonText: "Explore Files",
-            buttonAction: () => navigate('/files'),
+            buttonAction: () => navigate('/file'),
             gradientClass: "gradient-text4 tracking-tight inline font-semibold",
         },
         {
@@ -241,6 +242,12 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 <Box sx={{
                                 }}>
                                     <FloatingWordForm label="Word Replacement"/>
+                                </Box>
+                            }
+                            {section.title === "File" && isSmallScreen &&
+                                <Box sx={{
+                                }}>
+                                    <FloatingDragUpload/>
                                 </Box>
                             }
                         </Box>
