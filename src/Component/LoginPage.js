@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, TextField, Container, Typography, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import api from '../utils/api';
 
 const LoginPage = ({ setIsLoggedIn }) => {
@@ -10,7 +10,10 @@ const LoginPage = ({ setIsLoggedIn }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
 
     const handleLogin = async () => {
         try {
@@ -29,7 +32,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
                 setIsLoggedIn(true);
-                navigate('/');
+                navigate(from, { replace: true });
             } else {
                 throw new Error(response.data.error);
             }

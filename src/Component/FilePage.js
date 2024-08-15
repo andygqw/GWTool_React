@@ -6,7 +6,7 @@ import {
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     ListItemIcon, ListItemText, Checkbox, CircularProgress
 } from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, useLocation} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
 import api from '../utils/api';
 import axios from 'axios';
@@ -17,7 +17,10 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const [files, setFiles] = useState([]);
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [error, setError] = useState(null);
 
     const [openDialog, setOpenDialog] = useState(false);
@@ -34,7 +37,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
-                navigate('/login');
+                navigate('/login', { state: { from: location } });
             } else {
                 throw new Error(response.data.error);
             }
@@ -49,7 +52,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         if (isLoggedIn) {
             fetchFiles();
         } else {
-            navigate('/login');
+            navigate('/login', { state: { from: location } });
         }
         setError('');
     }, [isLoggedIn, fetchFiles, navigate]);
@@ -97,7 +100,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
-                navigate('/login');
+                navigate('/login', { state: { from: location } });
             } else {
                 throw new Error(response.data.error);
             }
@@ -140,7 +143,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             } else if (response.status === 401) {
                 localStorage.removeItem('token');
                 setIsLoggedIn(false);
-                navigate('/login');
+                navigate('/login', { state: { from: location } });
             } else {
                 throw new Error(response.data.error);
             }

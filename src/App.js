@@ -23,7 +23,7 @@ import RegisterPage from './Component/RegisterPage';
 import TextPage from './Component/TextPage';
 import WordPage from './Component/WordPage';
 import FilePage from './Component/FilePage';
-import {Route, Routes, useNavigate} from 'react-router-dom';
+import {Route, Routes, useNavigate, useLocation} from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -43,6 +43,7 @@ function App() {
     };
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -114,7 +115,7 @@ function App() {
                                 Logout
                             </Button>
                         ) : (
-                            <Button color="inherit" onClick={() => navigate('/login')}>
+                            <Button color="inherit" onClick={() => navigate('/login', { state: { from: location } })}>
                                 Login
                             </Button>
                         )}
