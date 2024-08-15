@@ -97,7 +97,7 @@ function App() {
                         }}>
                         GWTool
                     </Typography>
-                    <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+                    <Box sx={{display: {xs: 'none', sm: 'flex'}}}>
                         <Button color="inherit" onClick={() => navigate('/text')}>Text</Button>
                         <Button color="inherit" onClick={() => navigate('/word')}>Words</Button>
                         <Button color="inherit" onClick={() => navigate('/file')}>Files</Button>

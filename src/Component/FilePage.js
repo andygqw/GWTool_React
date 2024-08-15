@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useCallback} from 'react';
-import { useDropzone } from 'react-dropzone';
+import {useDropzone} from 'react-dropzone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
     Container, Button, Typography, Box, List, ListItem,
@@ -108,7 +108,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         }
     };
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    const {getRootProps, getInputProps, isDragActive} = useDropzone({
         onDrop: handleUpload,
         multiple: true,
         noClick: false,
@@ -186,125 +186,134 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 padding: 4,
                 borderRadius: 2,
                 boxShadow: {xs: 0, sm: 5},
+                marginTop: {xs: 4, sm: 0},
+                display: 'flex',
+                flexDirection: {xs: 'column', md: 'row'},
+                justifyContent: 'center',
+                alignItems: 'center',
             }}>
-                <Typography variant="h4" gutterBottom>
-                    File Management
-                </Typography>
-                {error && <Typography color="error" variant="body2">{error}</Typography>}
-
-                {/*<Button*/}
-                {/*    variant="contained"*/}
-                {/*    component="label"*/}
-                {/*    sx={{mb: 1}}*/}
-                {/*>*/}
-                {/*    Upload Files*/}
-                {/*    <input*/}
-                {/*        type="file"*/}
-                {/*        multiple*/}
-                {/*        hidden*/}
-                {/*        onChange={handleUpload}*/}
-                {/*    />*/}
-                {/*</Button>*/}
-
-                <Box {...getRootProps()} sx={{
-                    border: '2px dashed',
-                    borderColor: theme.palette.divider,
-                    borderRadius: 2,
-                    padding: 4,
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    backgroundColor: theme.palette.background.default,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}>
-                    <input {...getInputProps()} />
-                    <CloudUploadIcon sx={{ fontSize: 50, color: theme.palette.text.secondary }} />
-                    <Typography variant="h6" gutterBottom>
-                        {isDragActive ? "Drop the files here ..." : "Drag and drop or select files/folders"}
+                <div style={{ marginRight: '16px'}}>
+                    < Typography variant="h4" gutterBottom>
+                        File Management
                     </Typography>
-                    <Button variant="contained" sx={{ mt: 2 }}>
-                        Select from computer
-                    </Button>
-                    <Typography variant="caption" color="textSecondary">
+                    {error && <Typography color="error" variant="body2">{error}
+                    </Typography>}
 
-                    </Typography>
-                </Box>
+                    {/*<Button*/}
+                    {/*    variant="contained"*/}
+                    {/*    component="label"*/}
+                    {/*    sx={{mb: 1}}*/}
+                    {/*>*/}
+                    {/*    Upload Files*/}
+                    {/*    <input*/}
+                    {/*        type="file"*/}
+                    {/*        multiple*/}
+                    {/*        hidden*/}
+                    {/*        onChange={handleUpload}*/}
+                    {/*    />*/}
+                    {/*</Button>*/}
 
+                    <Box {...getRootProps()} sx={{
+                        border: '2px dashed',
+                        borderColor: theme.palette.divider,
+                        borderRadius: 2,
+                        padding: 4,
+                        textAlign: 'center',
+                        cursor: 'pointer',
+                        backgroundColor: theme.palette.background.default,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 'auto',
+                    }}>
+                        <input {...getInputProps()} />
+                        <CloudUploadIcon sx={{fontSize: 50, color: theme.palette.text.secondary}}/>
+                        <Typography variant="h6" gutterBottom>
+                            {isDragActive ? "Drop the files here ..." : "Drag and drop or select files/folders"}
+                        </Typography>
+                        <Button variant="contained" sx={{mt: 2}}>
+                            Select from computer
+                        </Button>
+                        <Typography variant="caption" color="textSecondary">
+
+                        </Typography>
+                    </Box>
+                </div>
 
                 {files.length === 0 ? (
-                    <Typography variant="body1">No files available.</Typography>
-                ) : (
-                    <>
-                        <Box sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            paddingX: 2,
-                            paddingLeft: '25px',
-                        }}>
-                            <Checkbox
-                                edge="start"
-                                checked={selectedFiles.length === files.length && files.length > 0}
-                                indeterminate={selectedFiles.length > 0 && selectedFiles.length < files.length}
-                                onChange={() => {
-                                    if (selectedFiles.length === files.length) {
-                                        setSelectedFiles([]);
-                                    } else {
-                                        setSelectedFiles(files);
-                                    }
-                                }}
-                            />
-                            <Typography variant="body1">
-                                Selected {selectedFiles.length} of {files.length} files
-                            </Typography>
-                        </Box>
-                        <List sx={{
-                            textAlign: 'left',
-                            maxHeight: '300px',
-                            overflowY: 'auto',
-                            overflowX: 'hidden',
-                            border: `1px solid ${theme.palette.divider}`,
-                            padding: 1,
-                        }}>
-                            {files.map((file) => (
-                                <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
-                                    <ListItemIcon>
-                                        <Checkbox
-                                            edge="start"
-                                            checked={selectedFiles.includes(file)}
-                                            tabIndex={-1}
-                                            disableRipple
-                                            onChange={() => handleSelectFile(file)}
-                                        />
-                                    </ListItemIcon>
-                                    <ListItemText
-                                        primary={
-                                            <a href={file.url} rel="noopener noreferrer" download
-                                               style={{
-                                                   color: theme.palette.text.primary,
-                                                   wordWrap: 'break-word'
-                                               }}>
-                                                {file.key}
-                                            </a>
+                        <Typography variant="body1">No files available.</Typography>
+                    ) : (
+                        <div>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                paddingX: 2,
+                                paddingLeft: '25px',
+                            }}>
+                                <Checkbox
+                                    edge="start"
+                                    checked={selectedFiles.length === files.length && files.length > 0}
+                                    indeterminate={selectedFiles.length > 0 && selectedFiles.length < files.length}
+                                    onChange={() => {
+                                        if (selectedFiles.length === files.length) {
+                                            setSelectedFiles([]);
+                                        } else {
+                                            setSelectedFiles(files);
                                         }
-                                        secondary={<>{formatFileSize(file.size)}</>}
-                                    />
-                                </ListItem>
-                            ))}
-                        </List>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            sx={{mt: 3}}
-                            disabled={selectedFiles.length === 0}
-                            onClick={() => setOpenDialog(true)}
-                        >
-                            Delete Selected
-                        </Button>
-                    </>
-                )}
+                                    }}
+                                />
+                                <Typography variant="body1">
+                                    Selected {selectedFiles.length} of {files.length} files
+                                </Typography>
+                            </Box>
+                            <List sx={{
+                                textAlign: 'left',
+                                maxHeight: '300px',
+                                overflowY: 'auto',
+                                overflowX: 'hidden',
+                                border: `1px solid ${theme.palette.divider}`,
+                                padding: 1,
+                            }}>
+                                {files.map((file) => (
+                                    <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
+                                        <ListItemIcon>
+                                            <Checkbox
+                                                edge="start"
+                                                checked={selectedFiles.includes(file)}
+                                                tabIndex={-1}
+                                                disableRipple
+                                                onChange={() => handleSelectFile(file)}
+                                            />
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={
+                                                <a href={file.url} rel="noopener noreferrer" download
+                                                   style={{
+                                                       color: theme.palette.text.primary,
+                                                       wordWrap: 'break-word'
+                                                   }}>
+                                                    {file.key}
+                                                </a>
+                                            }
+                                            secondary={<>{formatFileSize(file.size)}</>}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                sx={{mt: 3}}
+                                disabled={selectedFiles.length === 0}
+                                onClick={() => setOpenDialog(true)}
+                            >
+                                Delete Selected
+                            </Button>
+                        </div>
+                    )
+                }
 
                 <Dialog
                     open={openDialog}
