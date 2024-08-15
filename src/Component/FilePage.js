@@ -193,9 +193,8 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                         textAlign: 'left',
                         maxHeight: '300px',
                         overflowY: 'auto',
-                        mt: 3,
                         border: `1px solid ${theme.palette.divider}`,
-                        padding: 2,
+                        padding: 1,
                     }}>
                         {files.map((file) => (
                             <ListItem key={file.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
