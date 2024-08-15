@@ -136,7 +136,7 @@ const TextPage = () => {
                 />
                 <Box sx={{display: 'flex', alignItems: 'center', mt: 2}}>
                     <Button variant="contained" color="primary" onClick={fetchText}>
-                        Retrieve Text
+                        Get Text
                     </Button>
                     <Button variant="outlined" color="secondary" onClick={handleDeepClear} sx={{ml: 2}}>
                         Clear

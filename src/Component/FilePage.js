@@ -72,7 +72,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                     const file = uploadedFiles[i];
                     const presignedUrl = presignedUrls[i].url;
 
-                    if (file.name === presignedUrls[i].key){
+                    if (file.name === presignedUrls[i].key) {
 
                         await axios.put(presignedUrl, file, {
                             headers: {
@@ -152,19 +152,19 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     return (
         <Box sx={{
             minHeight: '100vh',
+            maxHeight: '100vh',
             height: 'auto',
             margin: 0,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            padding: 4,
         }}>
             <Container maxWidth="md" sx={{
                 textAlign: 'center',
-                backgroundColor: theme.palette.background.paper,
+                backgroundColor: {xs: "transparent", sm: theme.palette.background.paper},
                 padding: 4,
                 borderRadius: 2,
-                boxShadow: 3,
+                boxShadow: {xs: 0, sm: 5},
             }}>
                 <Typography variant="h4" gutterBottom>
                     File Management
@@ -174,7 +174,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 <Button
                     variant="contained"
                     component="label"
-                    sx={{mb: 3}}
+                    sx={{mb: 1}}
                 >
                     Upload Files
                     <input
@@ -185,39 +185,68 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                     />
                 </Button>
 
-
                 {files.length === 0 ? (
                     <Typography variant="body1">No files available.</Typography>
                 ) : (
-                    <List sx={{
-                        textAlign: 'left',
-                        maxHeight: '300px',
-                        overflowY: 'auto',
-                        border: `1px solid ${theme.palette.divider}`,
-                        padding: 1,
-                    }}>
-                        {files.map((file) => (
-                            <ListItem key={file.name} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                                <ListItemIcon>
-                                    <Checkbox
-                                        edge="start"
-                                        checked={selectedFiles.includes(file)}
-                                        tabIndex={-1}
-                                        disableRipple
-                                        onChange={() => handleSelectFile(file)}
-                                    />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary={
-                                        <a href={file.url} rel="noopener noreferrer" download style={{ color: theme.palette.text.primary }}>
-                                            {file.key}
-                                        </a>
+                    <>
+                        <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            paddingX: 2,
+                            paddingLeft: '25px',
+                        }}>
+                            <Checkbox
+                                edge="start"
+                                checked={selectedFiles.length === files.length && files.length > 0}
+                                indeterminate={selectedFiles.length > 0 && selectedFiles.length < files.length}
+                                onChange={() => {
+                                    if (selectedFiles.length === files.length) {
+                                        setSelectedFiles([]);
+                                    } else {
+                                        setSelectedFiles(files);
                                     }
-                                    secondary={<>{formatFileSize(file.size)}</>}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
+                                }}
+                            />
+                            <Typography variant="body1">
+                                Selected {selectedFiles.length} of {files.length} files
+                            </Typography>
+                        </Box>
+                        <List sx={{
+                            textAlign: 'left',
+                            maxHeight: '300px',
+                            overflowY: 'auto',
+                            overflowX: 'hidden',
+                            border: `1px solid ${theme.palette.divider}`,
+                            padding: 1,
+                        }}>
+                            {files.map((file) => (
+                                <ListItem key={file.name} sx={{display: 'flex', justifyContent: 'space-between'}}>
+                                    <ListItemIcon>
+                                        <Checkbox
+                                            edge="start"
+                                            checked={selectedFiles.includes(file)}
+                                            tabIndex={-1}
+                                            disableRipple
+                                            onChange={() => handleSelectFile(file)}
+                                        />
+                                    </ListItemIcon>
+                                    <ListItemText
+                                        primary={
+                                            <a href={file.url} rel="noopener noreferrer" download
+                                               style={{
+                                                   color: theme.palette.text.primary,
+                                                   wordWrap: 'break-word'
+                                               }}>
+                                                {file.key}
+                                            </a>
+                                        }
+                                        secondary={<>{formatFileSize(file.size)}</>}
+                                    />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </>
                 )}
 
                 <Button
