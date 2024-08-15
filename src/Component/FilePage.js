@@ -21,7 +21,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             isLoggedIn ? fetchFiles() : navigate('/login');
             setError('');
         },
-        [isLoggedIn, navigate]);
+        [fetchFiles, isLoggedIn, navigate]);
 
     const fetchFiles = async () => {
         try {
