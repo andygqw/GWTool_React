@@ -10,7 +10,7 @@ import {
     Breadcrumbs,
     Link,
     IconButton,
-    Paper, Button
+    Button
 } from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import api from '../utils/api';
@@ -134,81 +134,103 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
     const pathParts = currentPath.split('/').filter(Boolean);
 
     return (
-        <Container maxWidth="md" sx={{marginTop: 4}}>
-            <Paper elevation={3} sx={{padding: 3}}>
-                <Typography variant="h4" gutterBottom align="center">
-                    Resources
-                </Typography>
+        <Box sx={{
+            minHeight: '100vh',
+            height: 'auto',
+            margin: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+        }}>
+            <Container maxWidth="md" sx={{
+                minWidth: '60vw',
+                minHeight: '60vh',
+                marginTop: 4,
+                backgroundColor: {xs: "transparent", sm: theme.palette.background.paper},
+                borderRadius: 4,
+                boxShadow: {xs: 0, sm: 5},
+                padding: 4,
+            }}>
+                    <Typography variant="h4" gutterBottom align="center">
+                        Resources
+                    </Typography>
 
-                {error && <Typography color="error" variant="body2" align="center">{error}</Typography>}
+                    {error && <Typography color="error" variant="body2" align="center">{error}</Typography>}
 
-                {/* Breadcrumb Navigation */}
-                {pathParts.length > 0 && (
-                    <Breadcrumbs aria-label="breadcrumb" sx={{marginBottom: 3}}>
-                        <Link
-                            underline="hover"
-                            color="inherit"
-                            onClick={() => handleFolderClick('')}
-                            sx={{cursor: 'pointer'}}
-                        >
-                            Resources
-                        </Link>
-                        {pathParts.map((part, index) => (
+                    {/* Breadcrumb Navigation */}
+                    {pathParts.length > 0 && (
+                        <Breadcrumbs aria-label="breadcrumb" sx={{marginBottom: 1}}>
                             <Link
-                                key={index}
                                 underline="hover"
-                                color={index === pathParts.length - 1 ? 'textPrimary' : 'inherit'}
-                                onClick={() => handleBreadcrumbClick(index)}
+                                color="inherit"
+                                onClick={() => handleFolderClick('')}
                                 sx={{cursor: 'pointer'}}
                             >
-                                {part}
+                                Resources
                             </Link>
-                        ))}
-                    </Breadcrumbs>
-                )}
+                            {pathParts.map((part, index) => (
+                                <Link
+                                    key={index}
+                                    underline="hover"
+                                    color={index === pathParts.length - 1 ? 'textPrimary' : 'inherit'}
+                                    onClick={() => handleBreadcrumbClick(index)}
+                                    sx={{cursor: 'pointer'}}
+                                >
+                                    {part}
+                                </Link>
+                            ))}
+                        </Breadcrumbs>
+                    )}
 
-                {/* No Resources Available */}
-                {resources === null || (resources.folders.length === 0 && resources.files.length === 0) ? (
-                    <Typography variant="body1" align="center">No resources available.</Typography>
-                ) : (
-                    <List>
-                        {/* Folder List */}
-                        {resources.folders.map((folder) => (
-                            <ListItem button key={folder} onClick={() => handleFolderClick(folder)}>
-                                <IconButton edge="start" color="primary">
-                                    <Folder/>
-                                </IconButton>
-                                <ListItemText
-                                    primary={<Typography variant="body1"
-                                                         color="primary">{getFolderName(folder)}</Typography>}
-                                />
-                            </ListItem>
-                        ))}
+                    {/* No Resources Available */}
+                    {resources === null || (resources.folders.length === 0 && resources.files.length === 0) ? (
+                        <Typography variant="body1" align="center">No resources available.</Typography>
+                    ) : (
+                        <List sx={{
+                            textAlign: 'left',
+                            maxHeight: '300px',
+                            overflowY: 'auto',
+                            overflowX: 'hidden',
+                            border: `1px solid ${theme.palette.divider}`,
+                            padding: 1,
+                        }}>
+                            {/* Folder List */}
+                            {resources.folders.map((folder) => (
+                                <ListItem button key={folder} onClick={() => handleFolderClick(folder)}>
+                                    <IconButton edge="start" color="primary">
+                                        <Folder/>
+                                    </IconButton>
+                                    <ListItemText
+                                        primary={<Typography variant="body1"
+                                                             color="primary">{getFolderName(folder)}</Typography>}
+                                    />
+                                </ListItem>
+                            ))}
 
-                        {resources.files.map((file) => (
-                            <ListItem key={file.key} sx={{display: 'flex', alignItems: 'center'}}>
-                                <IconButton edge="start" color="secondary">
-                                    <InsertDriveFile/>
-                                </IconButton>
-                                <ListItemText
-                                    primary={
-                                        <a
-                                            href={file.url}
-                                            rel="noopener noreferrer"
-                                            download
-                                            style={{color: theme.palette.text.primary, wordWrap: 'break-word'}}
-                                        >
-                                            {file.key}
-                                        </a>
-                                    }
-                                    secondary={formatFileSize(file.size)}
-                                />
-                            </ListItem>
-                        ))}
-                    </List>
-                )}
-            </Paper>
-        </Container>
+                            {resources.files.map((file) => (
+                                <ListItem key={file.key} sx={{display: 'flex', alignItems: 'center'}}>
+                                    <IconButton edge="start" color="secondary">
+                                        <InsertDriveFile/>
+                                    </IconButton>
+                                    <ListItemText
+                                        primary={
+                                            <a
+                                                href={file.url}
+                                                rel="noopener noreferrer"
+                                                download
+                                                style={{color: theme.palette.text.primary, wordWrap: 'break-word'}}
+                                            >
+                                                {file.key}
+                                            </a>
+                                        }
+                                        secondary={formatFileSize(file.size)}
+                                    />
+                                </ListItem>
+                            ))}
+                        </List>
+                    )}
+            </Container>
+        </Box>
     );
 };
 
