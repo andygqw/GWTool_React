@@ -8,6 +8,7 @@ import {
 } from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import {useTheme} from '@mui/material/styles';
+import {formatFileSize} from "../utils/helper";
 import api from '../utils/api';
 import axios from 'axios';
 
@@ -154,17 +155,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             setSelectedFiles([]);
         }
     };
-    const formatFileSize = (sizeInBytes) => {
-        const sizeInMB = sizeInBytes / (1024 * 1024);
-        if (sizeInMB < 1) {
-            return `${(sizeInBytes / 1024).toFixed(2)} KB`;
-        } else if (sizeInMB < 1024) {
-            return `${sizeInMB.toFixed(2)} MB`;
-        } else {
-            const sizeInGB = sizeInMB / 1024;
-            return `${sizeInGB.toFixed(2)} GB`;
-        }
-    };
+
 
 
     if (loading) {

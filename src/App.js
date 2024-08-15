@@ -1,18 +1,8 @@
 import React, {useMemo, useState, useEffect} from 'react';
 import {
-    ThemeProvider,
-    CssBaseline,
-    Switch,
-    Toolbar,
-    Typography,
-    Button,
-    AppBar,
-    Box,
-    IconButton,
-    Drawer,
-    List,
-    ListItem,
-    ListItemText
+    ThemeProvider, CssBaseline, Switch,
+    Toolbar, Typography, Button, AppBar, Box, IconButton,
+    Drawer, List, ListItem, ListItemText,
 } from '@mui/material';
 import {DarkMode, LightMode, Menu as MenuIcon} from '@mui/icons-material';
 import {theme} from './theme';
@@ -23,6 +13,7 @@ import RegisterPage from './Component/RegisterPage';
 import TextPage from './Component/TextPage';
 import WordPage from './Component/WordPage';
 import FilePage from './Component/FilePage';
+import ResourcePage from './Component/ResourcePage';
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom';
 import './App.css';
 
@@ -186,6 +177,7 @@ function App() {
                     <Route path="/text" element={<TextPage/>}/>
                     <Route path="/word" element={<WordPage/>}/>
                     <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/resource" element={<ResourcePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Box>
