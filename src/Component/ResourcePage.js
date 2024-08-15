@@ -52,17 +52,21 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
     const handleFolderClick = (folderName) => {
 
         setCurrentPath(folderName);
-        fetchResources(currentPath);
+        fetchResources(folderName);
     };
 
-    const handleBackClick = () => {
-        // Navigate one level up by removing the last folder from the currentPath
+    const handleBreadcrumbClick = (index) => {
         const parts = currentPath.split('/').filter(Boolean);
-        parts.pop();
-        const newPath = parts.length > 0 ? `${parts.join('/')}/` : '';
+        const newPath = parts.slice(0, index + 1).join('/') + '/';
         setCurrentPath(newPath);
         fetchResources(newPath);
     };
+
+    const getFolderName = (folder) => {
+
+        const parts = folder.split('/');
+        return parts[parts.length - 2];
+    }
 
     if (loading) {
         return (
@@ -72,6 +76,8 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
         );
     }
 
+    const pathParts = currentPath.split('/').filter(Boolean);
+
     return (
         <Container maxWidth="md" sx={{textAlign: 'center', marginTop: 4}}>
             <Typography variant="h4" gutterBottom>
@@ -80,13 +86,28 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
             {error && <Typography color="error" variant="body2">{error}</Typography>}
 
 
-            {currentPath !== '' && (
-                <Typography
-                    variant="body1"
-                    sx={{cursor: 'pointer', color: 'blue', textDecoration: 'underline', marginBottom: 2}}
-                    onClick={handleBackClick}
-                >
-                    Go back
+            {pathParts.length > 0 && (
+                <Typography variant="body1" sx={{marginBottom: 2}}>
+                    <span key={-1}>
+                            <span
+                                style={{cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}
+                                onClick={() => handleFolderClick('')}
+                            >
+                                Resources
+                            </span>
+                            {' >> '}
+                        </span>
+                    {pathParts.map((part, index) => (
+                        <span key={index}>
+                            <span
+                                style={{cursor: 'pointer', color: 'blue', textDecoration: 'underline'}}
+                                onClick={() => handleBreadcrumbClick(index)}
+                            >
+                                {part}
+                            </span>
+                            {index < pathParts.length - 1 && ' >> '}
+                        </span>
+                    ))}
                 </Typography>
             )}
 
@@ -97,10 +118,10 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
                     {resources.folders.map((folder) => (
                         <ListItem button key={folder}
                                   onClick={() => handleFolderClick(folder)}>
-                            <ListItemText
+                        <ListItemText
                                 primary={
                                     <Typography variant="body1" color="primary">
-                                        📁 {folder}
+                                        📁 {getFolderName(folder)}
                                     </Typography>
                                 }
                             />
