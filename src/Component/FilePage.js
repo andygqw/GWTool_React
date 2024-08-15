@@ -55,7 +55,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             navigate('/login', { state: { from: location } });
         }
         setError('');
-    }, [isLoggedIn, fetchFiles, navigate]);
+    }, [isLoggedIn, fetchFiles, navigate, location]);
 
 
     const handleUpload = async (acceptedFiles) => {
