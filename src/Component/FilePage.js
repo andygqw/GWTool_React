@@ -46,7 +46,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         } finally {
             setLoading(false);
         }
-    }, [navigate, setIsLoggedIn]);  // Dependencies for useCallback
+    }, [location, navigate, setIsLoggedIn]);
 
     useEffect(() => {
         if (isLoggedIn) {
