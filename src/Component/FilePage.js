@@ -152,7 +152,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     return (
         <Box sx={{
             minHeight: '100vh',
-            maxHeight: '100vh',
             height: 'auto',
             margin: 0,
             display: 'flex',
@@ -246,18 +245,17 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                                 </ListItem>
                             ))}
                         </List>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            sx={{mt: 3}}
+                            disabled={selectedFiles.length === 0}
+                            onClick={handleDelete}
+                        >
+                            Delete Selected
+                        </Button>
                     </>
                 )}
-
-                <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{mt: 3}}
-                    disabled={selectedFiles.length === 0}
-                    onClick={handleDelete}
-                >
-                    Delete Selected
-                </Button>
             </Container>
         </Box>
     );
