@@ -124,7 +124,7 @@ function App() {
                         color="inherit"
                         aria-label="menu"
                         onClick={toggleDrawer}
-                        sx={{display: {xs: 'flex', md: 'none'}}}
+                        sx={{display: {xs: 'flex', sm: 'none'}}}
                     >
                         <MenuIcon/>
                     </IconButton>

@@ -107,8 +107,10 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
 
     const handleDelete = async () => {
         try {
-            const response = await api.delete('/file',
-                {keys: selectedFiles},
+            setLoading(true);
+            console.log("request: " + JSON.stringify({keys: selectedFiles.map((file) => (file.key))}));
+            const response = await api.post('/file',
+                {keys: selectedFiles.map((file) => (file.key))},
                 {
                     validateStatus: function (status) {
                         return status >= 200 && status <= 500;
@@ -126,6 +128,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
         } catch (err) {
             setError(err.message);
         } finally {
+            setLoading(false);
             setSelectedFiles([]);
         }
     };
