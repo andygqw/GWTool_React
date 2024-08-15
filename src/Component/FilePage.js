@@ -1,4 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import { useDropzone } from 'react-dropzone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import {
     Container, Button, Typography, Box, List, ListItem,
     Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
@@ -53,11 +55,14 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     }, [isLoggedIn, fetchFiles, navigate]);
 
 
-    const handleUpload = async (event) => {
+    const handleUpload = async (acceptedFiles) => {
 
-        const uploadedFiles = event.target.files;
+        //const uploadedFiles = event.target.files;
         const keys = [];
-        for (let file of uploadedFiles) {
+        // for (let file of uploadedFiles) {
+        //     keys.push(file.name);
+        // }
+        for (let file of acceptedFiles) {
             keys.push(file.name);
         }
 
@@ -74,8 +79,8 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
 
                 const presignedUrls = response.data.result;
 
-                for (let i = 0; i < uploadedFiles.length; i++) {
-                    const file = uploadedFiles[i];
+                for (let i = 0; i < acceptedFiles.length; i++) {
+                    const file = acceptedFiles[i];
                     const presignedUrl = presignedUrls[i].url;
                     console.log(presignedUrl);
 
@@ -102,6 +107,13 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             setLoading(false);
         }
     };
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop: handleUpload,
+        multiple: true,
+        noClick: false,
+        noKeyboard: true
+    });
 
     const handleSelectFile = (file) => {
         const isSelected = selectedFiles.includes(file);
@@ -180,19 +192,46 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 </Typography>
                 {error && <Typography color="error" variant="body2">{error}</Typography>}
 
-                <Button
-                    variant="contained"
-                    component="label"
-                    sx={{mb: 1}}
-                >
-                    Upload Files
-                    <input
-                        type="file"
-                        multiple
-                        hidden
-                        onChange={handleUpload}
-                    />
-                </Button>
+                {/*<Button*/}
+                {/*    variant="contained"*/}
+                {/*    component="label"*/}
+                {/*    sx={{mb: 1}}*/}
+                {/*>*/}
+                {/*    Upload Files*/}
+                {/*    <input*/}
+                {/*        type="file"*/}
+                {/*        multiple*/}
+                {/*        hidden*/}
+                {/*        onChange={handleUpload}*/}
+                {/*    />*/}
+                {/*</Button>*/}
+
+                <Box {...getRootProps()} sx={{
+                    border: '2px dashed',
+                    borderColor: theme.palette.divider,
+                    borderRadius: 2,
+                    padding: 4,
+                    textAlign: 'center',
+                    cursor: 'pointer',
+                    backgroundColor: theme.palette.background.default,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                }}>
+                    <input {...getInputProps()} />
+                    <CloudUploadIcon sx={{ fontSize: 50, color: theme.palette.text.secondary }} />
+                    <Typography variant="h6" gutterBottom>
+                        {isDragActive ? "Drop the files here ..." : "Drag and drop or select files/folders"}
+                    </Typography>
+                    <Button variant="contained" sx={{ mt: 2 }}>
+                        Select from computer
+                    </Button>
+                    <Typography variant="caption" color="textSecondary">
+
+                    </Typography>
+                </Box>
+
 
                 {files.length === 0 ? (
                     <Typography variant="body1">No files available.</Typography>
