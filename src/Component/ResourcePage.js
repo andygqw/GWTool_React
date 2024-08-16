@@ -10,13 +10,13 @@ import {
     Breadcrumbs,
     Link,
     IconButton,
-    Button
 } from '@mui/material';
 import {useNavigate, useLocation} from 'react-router-dom';
 import api from '../utils/api';
 import {formatFileSize} from "../utils/helper";
 import {Folder, InsertDriveFile} from '@mui/icons-material';
 import {useTheme} from '@mui/material/styles';
+import NoPermissionPage from './NoPermissionPage';
 
 const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
     const theme = useTheme();
@@ -88,47 +88,8 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
     }
 
     if (!isAllowed) {
-        return (
-            <Box
-                sx={{
-                    height: '100vh',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    padding: 4,
-                }}
-            >
-                <Container>
-                    <Typography
-                        variant="h2"
-                        sx={{
-                            fontWeight: 'bold',
-                            color: theme.palette.text.primary,
-                            mb: 2
-                        }}
-                    >
-                        No Access :(
-                    </Typography>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            color: theme.palette.text.secondary,
-                            mb: 4
-                        }}
-                    >
-                        Oops! Your account does not have access, contact Adiminstartor or try other tools.
-                    </Typography>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => navigate('/')}
-                    >
-                        Go Back to Home
-                    </Button>
-                </Container>
-            </Box>
-        );
+        
+        return <NoPermissionPage/>;
     }
 
     const pathParts = currentPath.split('/').filter(Boolean);

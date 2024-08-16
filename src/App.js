@@ -14,6 +14,7 @@ import TextPage from './Component/TextPage';
 import WordPage from './Component/WordPage';
 import FilePage from './Component/FilePage';
 import ResourcePage from './Component/ResourcePage';
+import MemoPage from './Component/MemoPage';
 import {Route, Routes, useNavigate, useLocation} from 'react-router-dom';
 import './App.css';
 
@@ -178,6 +179,7 @@ function App() {
                     <Route path="/word" element={<WordPage/>}/>
                     <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="/resource" element={<ResourcePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
+                    <Route path="/kiskis" element={<MemoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
                     <Route path="*" element={<NotFoundPage/>}/>
                 </Routes>
             </Box>
