@@ -364,7 +364,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                                     {memo.replies.map((reply) => (
                                         <Box key={reply.id} sx={{ ml: 2 }}>
                                             <Typography variant="body2" color="textSecondary">
-                                                {reply.reply_id === null ? (
+                                                {reply.reply_to === null ? (
                                                     <>{reply.author} ({new Date(reply.create_time).toLocaleString()}):</>
                                                 ) : (
                                                     <>{reply.author} replied to {reply.reply_to} ({new Date(reply.create_time).toLocaleString()}):</>
