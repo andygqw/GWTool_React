@@ -10,6 +10,7 @@ import GroupFloatingInput from '../utils/GroupFloatingInput';
 import FloatingWordForm from "../utils/FloatingWordForm";
 import FloatingDragUpload from "../utils/FloatingDragUpload";
 import FloatingFileIcon from '../utils/FloatingFileIcon';
+import ScrollingBar from '../utils/ScrollingBar';
 
 const LandingPage = ({mode, isLoggedIn}) => {
 
@@ -255,6 +256,12 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 <Box sx={{
                                 }}>
                                     <FloatingFileIcon/>
+                                </Box>
+                            }
+                            {section.title === "KisKis" && isSmallScreen &&
+                                <Box sx={{
+                                }}>
+                                    <ScrollingBar/>
                                 </Box>
                             }
                         </Box>
