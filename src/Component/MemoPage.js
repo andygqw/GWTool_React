@@ -196,6 +196,44 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
         }
     };
 
+    const handleDeleteReply = async () => {
+        try {
+            setLoading(true);
+            if (memoToReply) {
+                const response = await api.post(`/reply`, {
+                    reply_id: replyToReply,
+                }, {
+                    validateStatus: function (status) {
+                        return status >= 200 && status <= 500;
+                    }
+                });
+
+                if (response.status === 200) {
+                    fetchMemos();
+                }
+                else if (response.status === 403) {
+                    throw new Error('You can\'t delete a reply which doesn\'t belong to you');
+                }
+                else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    setIsLoggedIn(false);
+                    navigate('/login', { state: { from: location } });
+                }
+                else {
+                    throw new Error(response.data.error || 'Failed to delete');
+                }
+            }
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+            setOpenReplyModal(false);
+            setMemoToReply(null);
+            setReplyToReply(null);
+            setReplyContent('');
+        }
+    }
+
     const handleOpenAddMemoModal = () => setOpenAddMemoModal(true);
     const handleCloseAddMemoModal = () => setOpenAddMemoModal(false);
 
@@ -393,6 +431,13 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                     />
                 </DialogContent>
                 <DialogActions>
+                    <Button
+                        size="small"
+                        color="error"
+                        onClick={handleDeleteReply}
+                    >
+                        Delete
+                    </Button>
                     <Button onClick={handleCloseReplyModal} color="secondary">
                         Cancel
                     </Button>
