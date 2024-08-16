@@ -72,6 +72,10 @@ function App() {
         setDrawerOpen(false);
     };
 
+    const redirectToJAT = () => {
+        window.location.href = "https://jat.tiny-pink.com/dashboard";
+    }
+
     return (
         <ThemeProvider theme={themeMode}>
             <CssBaseline />
@@ -104,6 +108,7 @@ function App() {
                         <Button color="inherit" onClick={() => navigate('/file')}>Files</Button>
                         <Button color="inherit" onClick={() => navigate('/resource')}>Resources</Button>
                         <Button color="inherit" onClick={() => navigate('/kiskis')}>KisKis</Button>
+                        <Button color="inherit" onClick={redirectToJAT}>JAT</Button>
                         <Switch
                             checked={mode === 'dark'}
                             onChange={toggleTheme}
@@ -161,6 +166,9 @@ function App() {
                     </ListItem>
                     <ListItem button onClick={() => handleMenuClick('/kiskis')}>
                         <ListItemText primary="KisKis" />
+                    </ListItem>
+                    <ListItem button onClick={redirectToJAT}>
+                        <ListItemText primary="JAT" />
                     </ListItem>
                     <ListItem button onClick={toggleTheme}>
                         <Switch
