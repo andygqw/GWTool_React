@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Container, Typography, Box, Card, CardContent, CardActions,
+import {
+    Container, Typography, Box, Card, CardContent, CardActions,
     Button, Avatar, CircularProgress, Dialog, DialogContent,
-    DialogTitle, DialogActions, TextField } from '@mui/material';
+    DialogTitle, DialogActions, TextField
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import api from '../utils/api';
 import axios from 'axios';
@@ -24,6 +26,15 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const [newMemoTitle, setNewMemoTitle] = useState('');
     const [newMemoDescription, setNewMemoDescription] = useState('');
     const [newMemoImage, setNewMemoImage] = useState(null);
+
+    // State for Delete Confirmation Modal
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
+    const [memoToDelete, setMemoToDelete] = useState(null);
+
+    // State for Reply Modal
+    const [openReplyModal, setOpenReplyModal] = useState(false);
+    const [memoToReply, setMemoToReply] = useState(null);
+    const [replyContent, setReplyContent] = useState('');
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -74,7 +85,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             const response = await api.put('/memo', {
                 name: newMemoTitle,
                 description: newMemoDescription,
-                image: newMemoImage.name
+                image: newMemoImage === null? null : newMemoImage.name
             }, {
                 validateStatus: function (status) {
                     return status >= 200 && status <= 500;
@@ -83,7 +94,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
             if (response.status === 200) {
 
-                if (response.data.presignedUrl !== null){
+                if (response.data.presignedUrl !== null) {
 
                     console.log(response.data.presignedUrl);
                     console.log(newMemoImage);
@@ -113,32 +124,102 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
         }
     };
 
-    const handleDeleteMemo = async (id) => {
+    const handleDeleteMemo = async () => {
         try {
-            await api.delete(`/memos/${id}`);
-            fetchMemos();
+            setLoading(true);
+            const response = await api.post(`/memo`, {
+                memo_id: memoToDelete
+            }, {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
+
+            if (response.status === 200) {
+                fetchMemos();
+            }
+            else if (response.status === 401) {
+                localStorage.removeItem('token');
+                setIsLoggedIn(false);
+                navigate('/login', { state: { from: location } });
+            }
+            else if (response.status === 403) {
+                throw new Error('You can\'t delete a memo which doesn\'t belong to you');
+            }
+            else {
+                throw new Error(response.data.error || 'Failed to load memos');
+            }
         } catch (err) {
-            setError('Failed to delete memo');
+            setError(err.message);
+        } finally {
+            setLoading(false);
+            setOpenDeleteModal(false);
+            setMemoToDelete(null);
         }
     };
 
-    const handleReplyMemo = async (id, replyContent) => {
+    const handleReplyMemo = async () => {
         try {
-            await api.post(`/memos/${id}/reply`, { content: replyContent });
-            fetchMemos();
+            setLoading(true);
+            if (memoToReply) {
+                const response = await api.put(`/reply`, {
+                    memo_id: memoToReply,
+                    reply_id: null,
+                    content: replyContent
+                },{
+                    validateStatus: function (status) {
+                        return status >= 200 && status <= 500;
+                    }
+                });
+
+                if (response.status === 200) {
+                    fetchMemos();
+                }
+                else if (response.status === 401) {
+                    localStorage.removeItem('token');
+                    setIsLoggedIn(false);
+                    navigate('/login', { state: { from: location } });
+                }
+                else {
+                    throw new Error(response.data.error || 'Failed to reply');
+                }
+            }
         } catch (err) {
-            setError('Failed to reply to memo');
+            setError(err.message);
+        } finally {
+            setLoading(false);
+            setOpenReplyModal(false);
+            setMemoToReply(null);
+            setReplyContent('');
         }
     };
 
     const handleOpenAddMemoModal = () => setOpenAddMemoModal(true);
     const handleCloseAddMemoModal = () => setOpenAddMemoModal(false);
 
+    const handleOpenDeleteModal = (memoId) => {
+        setMemoToDelete(memoId);
+        setOpenDeleteModal(true);
+    };
+    const handleCloseDeleteModal = () => {
+        setOpenDeleteModal(false);
+        setMemoToDelete(null);
+    };
+
+    const handleOpenReplyModal = (memoId) => {
+        setMemoToReply(memoId);
+        setOpenReplyModal(true);
+    };
+    const handleCloseReplyModal = () => {
+        setOpenReplyModal(false);
+        setMemoToReply(null);
+        setReplyContent('');
+    };
+
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
         setOpenImage(true);
     };
-
     const handleCloseImage = () => {
         setOpenImage(false);
         setSelectedImage(null);
@@ -249,14 +330,14 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                             <Button
                                 size="small"
                                 color="primary"
-                                onClick={() => handleReplyMemo(memo.id, 'Reply content here')}
+                                onClick={() => handleOpenReplyModal(memo.id)}
                             >
                                 Reply
                             </Button>
                             <Button
                                 size="small"
                                 color="secondary"
-                                onClick={() => handleDeleteMemo(memo.id)}
+                                onClick={() => handleOpenDeleteModal(memo.id)}
                             >
                                 Delete
                             </Button>
@@ -286,6 +367,47 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 </Card>
             ))
             }
+
+            {/* Reply Modal */}
+            <Dialog open={openReplyModal} onClose={handleCloseReplyModal} maxWidth="sm" fullWidth>
+                <DialogTitle>Reply to Memo</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        label="Your Reply"
+                        value={replyContent}
+                        onChange={(e) => setReplyContent(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseReplyModal} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleReplyMemo} color="primary">
+                        Submit Reply
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            {/* Delete Confirmation Modal */}
+            <Dialog open={openDeleteModal} onClose={handleCloseDeleteModal}>
+                <DialogTitle>Confirm Deletion</DialogTitle>
+                <DialogContent>
+                    <Typography>Are you sure you want to delete this memo?</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseDeleteModal} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleDeleteMemo} color="primary">
+                        Confirm
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             <Dialog open={openImage} onClose={handleCloseImage}>
                 <DialogContent>
