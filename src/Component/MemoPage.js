@@ -34,6 +34,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     // State for Reply Modal
     const [openReplyModal, setOpenReplyModal] = useState(false);
     const [memoToReply, setMemoToReply] = useState(null);
+    const [replyToReply, setReplyToReply] = useState(null);
     const [replyContent, setReplyContent] = useState('');
 
     const navigate = useNavigate();
@@ -85,7 +86,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             const response = await api.put('/memo', {
                 name: newMemoTitle,
                 description: newMemoDescription,
-                image: newMemoImage === null? null : newMemoImage.name
+                image: newMemoImage === null ? null : newMemoImage.name
             }, {
                 validateStatus: function (status) {
                     return status >= 200 && status <= 500;
@@ -164,9 +165,9 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             if (memoToReply) {
                 const response = await api.put(`/reply`, {
                     memo_id: memoToReply,
-                    reply_id: null,
+                    reply_id: replyToReply,
                     content: replyContent
-                },{
+                }, {
                     validateStatus: function (status) {
                         return status >= 200 && status <= 500;
                     }
@@ -190,6 +191,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             setLoading(false);
             setOpenReplyModal(false);
             setMemoToReply(null);
+            setReplyToReply(null);
             setReplyContent('');
         }
     };
@@ -206,7 +208,8 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
         setMemoToDelete(null);
     };
 
-    const handleOpenReplyModal = (memoId) => {
+    const handleOpenReplyModal = (memoId, replyId) => {
+        setReplyToReply(replyId);
         setMemoToReply(memoId);
         setOpenReplyModal(true);
     };
@@ -315,9 +318,15 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                                     {memo.replies.map((reply) => (
                                         <Box key={reply.id} sx={{ ml: 2 }}>
                                             <Typography variant="body2" color="textSecondary">
-                                                {reply.author} ({new Date(reply.create_time).toLocaleString()}):
+                                                {reply.reply_id === null ? (
+                                                    <>{reply.author} ({new Date(reply.create_time).toLocaleString()}):</>
+                                                ) : (
+                                                    <>{reply.author} replied to {reply.reply_to} ({new Date(reply.create_time).toLocaleString()}):</>
+                                                )}
                                             </Typography>
-                                            <Typography variant="body1" sx={{ whiteSpace: 'pre-line' }}>
+                                            <Typography variant="body1"
+                                                onClick={() => handleOpenReplyModal(memo.id, reply.id)}
+                                                sx={{ whiteSpace: 'pre-line', cursor: 'pointer' }}>
                                                 {reply.content}
                                             </Typography>
                                         </Box>
@@ -330,7 +339,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                             <Button
                                 size="small"
                                 color="primary"
-                                onClick={() => handleOpenReplyModal(memo.id)}
+                                onClick={() => handleOpenReplyModal(memo.id, null)}
                             >
                                 Reply
                             </Button>
