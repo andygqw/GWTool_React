@@ -9,6 +9,7 @@ import { useMediaQuery } from '@mui/material';
 import GroupFloatingInput from '../utils/GroupFloatingInput';
 import FloatingWordForm from "../utils/FloatingWordForm";
 import FloatingDragUpload from "../utils/FloatingDragUpload";
+import FloatingFileIcon from '../utils/FloatingFileIcon';
 
 const LandingPage = ({mode, isLoggedIn}) => {
 
@@ -54,7 +55,7 @@ const LandingPage = ({mode, isLoggedIn}) => {
             description3: "of resources.",
             description: "Periodically updating resources.",
             buttonText: "Explore Resources",
-            buttonAction: () => navigate('/resources'),
+            buttonAction: () => navigate('/resource'),
             gradientClass: "gradient-text5 tracking-tight inline font-semibold",
         },
         {
@@ -248,6 +249,12 @@ const LandingPage = ({mode, isLoggedIn}) => {
                                 <Box sx={{
                                 }}>
                                     <FloatingDragUpload/>
+                                </Box>
+                            }
+                            {section.title === "Resources" && isSmallScreen &&
+                                <Box sx={{
+                                }}>
+                                    <FloatingFileIcon/>
                                 </Box>
                             }
                         </Box>
