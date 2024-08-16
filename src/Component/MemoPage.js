@@ -88,7 +88,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 throw new Error('Only images are allowed.');
             }
 
-            if (newMemoTitle === null || newMemoTitle.length === 0){
+            if (newMemoTitle === null || newMemoTitle.length === 0) {
                 throw new Error('Title is required');
             }
 
@@ -289,18 +289,18 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     }
 
     return (
-        <Container maxWidth="md" sx={{ 
-                mt: 4,
-                marginTop: 8,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
+        <Container maxWidth="md" sx={{
+            mt: 4,
+            marginTop: 8,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
             <Typography variant="h4" gutterBottom>
                 Memos
             </Typography>
             {error && <Typography color="error">{error}</Typography>}
 
-            <Button variant="contained" color="primary" sx={{mb: 2}} onClick={handleOpenAddMemoModal}>
+            <Button variant="contained" color="primary" sx={{ mb: 2 }} onClick={handleOpenAddMemoModal}>
                 Add Memo
             </Button>
             <Dialog open={openAddMemoModal} onClose={handleCloseAddMemoModal} maxWidth="sm" fullWidth>
@@ -355,7 +355,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                     mb: 3, display: 'flex', flexDirection: 'row', flexGrow: true, gap: 2, justifyContent: 'flex-start',
                     boxShadow: 6, backgroundColor: theme.palette.background.paper,
                 }}>
-                    <CardContent sx={{ display: 'flex', flexDirection: 'column', maxWidth: {xs: '100%', sm: '60%'} }}>
+                    <CardContent sx={{ display: 'flex', flexDirection: 'column', maxWidth: { xs: '100%', sm: '60%' } }}>
                         <div style={{ padding: 10 }}>
 
                             <Typography variant="h5">{memo.name}</Typography>
@@ -414,8 +414,8 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
                     {memo.image && (
                         <Box sx={{
-                            flex: '0 1 auto', alignSelf: 'center', display: {xs: 'none', sm: 'block'},
-                            maxWidth:'40%', marginLeft: 'auto', padding: 4
+                            flex: '0 1 auto', alignSelf: 'center', display: { xs: 'none', sm: 'block' },
+                            maxWidth: '40%', marginLeft: 'auto', padding: 4
                         }}>
                             <Avatar
                                 variant="square"
@@ -446,13 +446,15 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button
-                        size="small"
-                        color="error"
-                        onClick={handleDeleteReply}
-                    >
-                        Delete
-                    </Button>
+                    {replyToReply !== null &&
+                        <Button
+                            size="small"
+                            color="error"
+                            onClick={handleDeleteReply}
+                        >
+                            Delete
+                        </Button>
+                    }
                     <Button onClick={handleCloseReplyModal} color="secondary">
                         Cancel
                     </Button>
