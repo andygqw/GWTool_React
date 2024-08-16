@@ -214,6 +214,9 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 else if (response.status === 403) {
                     throw new Error('You can\'t delete a reply which doesn\'t belong to you');
                 }
+                else if (response.status === 406) {
+                    throw new Error('You can\'t delete a reply when others have replied to this reply');
+                }
                 else if (response.status === 401) {
                     localStorage.removeItem('token');
                     setIsLoggedIn(false);
