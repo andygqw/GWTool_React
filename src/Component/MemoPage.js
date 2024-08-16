@@ -49,6 +49,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 }
             });
             if (response.status === 200) {
+                setError(null);
                 setIsAllowed(true);
                 setMemos(response.data);
             }
@@ -83,6 +84,14 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const handleAddMemo = async () => {
         try {
 
+            if (newMemoImage && !newMemoImage.type.startsWith('image/')) {
+                throw new Error('Only images are allowed.');
+            }
+
+            if (newMemoTitle === null || newMemoTitle.length === 0){
+                throw new Error('Title is required');
+            }
+
             const response = await api.put('/memo', {
                 name: newMemoTitle,
                 description: newMemoDescription,
@@ -97,8 +106,6 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
                 if (response.data.presignedUrl !== null) {
 
-                    console.log(response.data.presignedUrl);
-                    console.log(newMemoImage);
                     await axios.put(response.data.presignedUrl, newMemoImage, {
                         headers: {
                             'Content-Type': newMemoImage.type
@@ -119,7 +126,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 throw new Error(response.data.error || 'Failed to add memo');
             }
         } catch (err) {
-            setError('Failed to add memo');
+            setError(err.message);
         } finally {
             setOpenAddMemoModal(false);
         }

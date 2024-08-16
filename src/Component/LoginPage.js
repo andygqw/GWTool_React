@@ -31,6 +31,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 });
             if (response.status === 200) {
                 localStorage.setItem('token', response.data.token);
+                localStorage.setItem('username', username);
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });
             } else {

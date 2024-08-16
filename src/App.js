@@ -1,11 +1,11 @@
-import React, {useMemo, useState, useEffect} from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
     ThemeProvider, CssBaseline, Switch,
     Toolbar, Typography, Button, AppBar, Box, IconButton,
-    Drawer, List, ListItem, ListItemText,
+    Drawer, List, ListItem, ListItemText, Menu, MenuItem,
 } from '@mui/material';
-import {DarkMode, LightMode, Menu as MenuIcon} from '@mui/icons-material';
-import {theme} from './theme';
+import { DarkMode, LightMode, Menu as MenuIcon } from '@mui/icons-material';
+import { theme } from './theme';
 import NotFoundPage from './Component/NotFoundPage';
 import LandingPage from './Component/LandingPage';
 import LoginPage from './Component/LoginPage';
@@ -15,7 +15,7 @@ import WordPage from './Component/WordPage';
 import FilePage from './Component/FilePage';
 import ResourcePage from './Component/ResourcePage';
 import MemoPage from './Component/MemoPage';
-import {Route, Routes, useNavigate, useLocation} from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
 
 function App() {
@@ -26,6 +26,7 @@ function App() {
 
     const [mode, setMode] = useState(getDefaultMode);
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
+    const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     const themeMode = useMemo(() => theme(mode), [mode]);
@@ -51,14 +52,21 @@ function App() {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
         setIsLoggedIn(false);
         navigate('/');
+    };
+
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
     };
 
     const toggleDrawer = () => {
         setDrawerOpen(!drawerOpen);
     };
-
     const handleMenuClick = (path) => {
         navigate(path);
         setDrawerOpen(false);
@@ -66,15 +74,15 @@ function App() {
 
     return (
         <ThemeProvider theme={themeMode}>
-            <CssBaseline/>
+            <CssBaseline />
             <AppBar position="absolute" elevation={0} color="transparent"
-                    sx={{
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        pl: {xs: 0, sm: 2},
-                        pr: {xs: 0, sm: 2},
-                    }}>
+                sx={{
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    pl: { xs: 0, sm: 2 },
+                    pr: { xs: 0, sm: 2 },
+                }}>
                 <Toolbar>
                     <Typography
                         onClick={() => navigate('/')}
@@ -90,7 +98,7 @@ function App() {
                         }}>
                         GWTool
                     </Typography>
-                    <Box sx={{display: {xs: 'none', sm: 'flex'}}}>
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
                         <Button color="inherit" onClick={() => navigate('/text')}>Text</Button>
                         <Button color="inherit" onClick={() => navigate('/word')}>Words</Button>
                         <Button color="inherit" onClick={() => navigate('/file')}>Files</Button>
@@ -99,13 +107,26 @@ function App() {
                         <Switch
                             checked={mode === 'dark'}
                             onChange={toggleTheme}
-                            icon={<LightMode sx={{color: themeMode.palette.text.primary}}/>}
-                            checkedIcon={<DarkMode sx={{color: themeMode.palette.text.primary}}/>}
+                            icon={<LightMode sx={{ color: themeMode.palette.text.primary }} />}
+                            checkedIcon={<DarkMode sx={{ color: themeMode.palette.text.primary }} />}
                         />
                         {isLoggedIn ? (
-                            <Button color="inherit" onClick={handleLogout}>
-                                Logout
-                            </Button>
+                            <>
+                                <Button
+                                    color="inherit"
+                                    onClick={handleMenuOpen}
+                                >
+                                    {localStorage.getItem('username')}
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleMenuClose}
+                                >
+                                    {/* <MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem> */}
+                                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                                </Menu>
+                            </>
                         ) : (
                             <Button color="inherit" onClick={() => navigate('/login', { state: { from: location } })}>
                                 Login
@@ -117,45 +138,45 @@ function App() {
                         color="inherit"
                         aria-label="menu"
                         onClick={toggleDrawer}
-                        sx={{display: {xs: 'flex', sm: 'none'}}}
+                        sx={{ display: { xs: 'flex', sm: 'none' } }}
                     >
-                        <MenuIcon/>
+                        <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
 
             <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
-                <List sx={{width: 250}}>
+                <List sx={{ width: 250 }}>
                     <ListItem button onClick={() => handleMenuClick('/text')}>
-                        <ListItemText primary="Text"/>
+                        <ListItemText primary="Text" />
                     </ListItem>
                     <ListItem button onClick={() => handleMenuClick('/word')}>
-                        <ListItemText primary="Words"/>
+                        <ListItemText primary="Words" />
                     </ListItem>
                     <ListItem button onClick={() => handleMenuClick('/file')}>
-                        <ListItemText primary="Files"/>
+                        <ListItemText primary="Files" />
                     </ListItem>
                     <ListItem button onClick={() => handleMenuClick('/resource')}>
-                        <ListItemText primary="Resources"/>
+                        <ListItemText primary="Resources" />
                     </ListItem>
                     <ListItem button onClick={() => handleMenuClick('/kiskis')}>
-                        <ListItemText primary="KisKis"/>
+                        <ListItemText primary="KisKis" />
                     </ListItem>
                     <ListItem button onClick={toggleTheme}>
                         <Switch
                             checked={mode === 'dark'}
-                            icon={<LightMode sx={{color: themeMode.palette.text.primary}}/>}
-                            checkedIcon={<DarkMode sx={{color: themeMode.palette.text.primary}}/>}
+                            icon={<LightMode sx={{ color: themeMode.palette.text.primary }} />}
+                            checkedIcon={<DarkMode sx={{ color: themeMode.palette.text.primary }} />}
                         />
-                        <ListItemText primary="Toggle Theme"/>
+                        <ListItemText primary="Toggle Theme" />
                     </ListItem>
                     {isLoggedIn ? (
                         <ListItem button onClick={handleLogout}>
-                            <ListItemText primary="Logout"/>
+                            <ListItemText primary="Logout" />
                         </ListItem>
                     ) : (
                         <ListItem button onClick={() => handleMenuClick('/login')}>
-                            <ListItemText primary="Login"/>
+                            <ListItemText primary="Login" />
                         </ListItem>
                     )}
                 </List>
@@ -172,15 +193,15 @@ function App() {
                     : 'linear-gradient(to bottom right, #ffffff, #E9CEF0)',
             }}>
                 <Routes>
-                    <Route path="/" element={<LandingPage mode={mode} isLoggedIn={isLoggedIn}/>}/>
-                    <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/register" element={<RegisterPage/>}/>
-                    <Route path="/text" element={<TextPage/>}/>
-                    <Route path="/word" element={<WordPage/>}/>
-                    <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/resource" element={<ResourcePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="/kiskis" element={<MemoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>}/>
-                    <Route path="*" element={<NotFoundPage/>}/>
+                    <Route path="/" element={<LandingPage mode={mode} isLoggedIn={isLoggedIn} />} />
+                    <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/text" element={<TextPage />} />
+                    <Route path="/word" element={<WordPage />} />
+                    <Route path="/file" element={<FilePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="/resource" element={<ResourcePage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="/kiskis" element={<MemoPage isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />} />
+                    <Route path="*" element={<NotFoundPage />} />
                 </Routes>
             </Box>
         </ThemeProvider>
