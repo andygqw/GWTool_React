@@ -86,7 +86,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 for (let i = 0; i < acceptedFiles.length; i++) {
                     const file = acceptedFiles[i];
                     const presignedUrl = presignedUrls[i].url;
-                    console.log(presignedUrl);
 
                     if (file.name === presignedUrls[i].key) {
 
@@ -131,7 +130,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
     const handleDelete = async () => {
         try {
             setLoading(true);
-            console.log("request: " + JSON.stringify({keys: selectedFiles.map((file) => (file.key))}));
             const response = await api.post('/file',
                 {keys: selectedFiles.map((file) => (file.key))},
                 {

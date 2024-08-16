@@ -1,23 +1,29 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-    Container, Typography, Box, Card, CardContent, CardActions,
-    Button, TextField, Avatar, CircularProgress, Dialog, DialogContent
-} from '@mui/material';
+import { Container, Typography, Box, Card, CardContent, CardActions,
+    Button, Avatar, CircularProgress, Dialog, DialogContent,
+    DialogTitle, DialogActions, TextField } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import api from '../utils/api';
+import axios from 'axios';
+
 import NoPermissionPage from './NoPermissionPage';
 
 const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
+    const theme = useTheme();
     const [memos, setMemos] = useState([]);
-    const [newMemo, setNewMemo] = useState('');
     const [openImage, setOpenImage] = useState(false);
     const [selectedImage, setSelectedImage] = useState(null);
     const [loading, setLoading] = useState(true);
     const [isAllowed, setIsAllowed] = useState(false);
     const [error, setError] = useState(null);
-    const theme = useTheme();
+
+    // States for Add Memo Modal
+    const [openAddMemoModal, setOpenAddMemoModal] = useState(false);
+    const [newMemoTitle, setNewMemoTitle] = useState('');
+    const [newMemoDescription, setNewMemoDescription] = useState('');
+    const [newMemoImage, setNewMemoImage] = useState(null);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -25,7 +31,11 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const fetchMemos = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await api.get('/memo');
+            const response = await api.get('/memo', {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
             if (response.status === 200) {
                 setIsAllowed(true);
                 setMemos(response.data);
@@ -60,13 +70,46 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     const handleAddMemo = async () => {
         try {
-            const response = await api.post('/memos', { content: newMemo });
-            if (response.status === 201) {
+
+            const response = await api.put('/memo', {
+                name: newMemoTitle,
+                description: newMemoDescription,
+                image: newMemoImage.name
+            }, {
+                validateStatus: function (status) {
+                    return status >= 200 && status <= 500;
+                }
+            });
+
+            if (response.status === 200) {
+
+                if (response.data.presignedUrl !== null){
+
+                    console.log(response.data.presignedUrl);
+                    console.log(newMemoImage);
+                    await axios.put(response.data.presignedUrl, newMemoImage, {
+                        headers: {
+                            'Content-Type': newMemoImage.type
+                        }
+                    });
+                }
+
                 fetchMemos();
-                setNewMemo('');
+                setNewMemoTitle('');
+                setNewMemoDescription('');
+                setNewMemoImage(null);
+
+            } else if (response.status === 401) {
+                localStorage.removeItem('token');
+                setIsLoggedIn(false);
+                navigate('/login', { state: { from: location } });
+            } else {
+                throw new Error(response.data.error || 'Failed to add memo');
             }
         } catch (err) {
             setError('Failed to add memo');
+        } finally {
+            setOpenAddMemoModal(false);
         }
     };
 
@@ -87,6 +130,9 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             setError('Failed to reply to memo');
         }
     };
+
+    const handleOpenAddMemoModal = () => setOpenAddMemoModal(true);
+    const handleCloseAddMemoModal = () => setOpenAddMemoModal(false);
 
     const handleImageClick = (imageUrl) => {
         setSelectedImage(imageUrl);
@@ -117,21 +163,55 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             </Typography>
             {error && <Typography color="error">{error}</Typography>}
 
-            <Box sx={{ mb: 4 }}>
-                <TextField
-                    fullWidth
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    label="New Memo"
-                    value={newMemo}
-                    onChange={(e) => setNewMemo(e.target.value)}
-                    sx={{ mb: 2 }}
-                />
-                <Button variant="contained" color="primary" onClick={handleAddMemo}>
-                    Add Memo
-                </Button>
-            </Box>
+            <Button variant="contained" color="primary" onClick={handleOpenAddMemoModal}>
+                Add Memo
+            </Button>
+            <Dialog open={openAddMemoModal} onClose={handleCloseAddMemoModal} maxWidth="sm" fullWidth>
+                <DialogTitle>Add New Memo</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        fullWidth
+                        variant="outlined"
+                        label="Memo Title"
+                        value={newMemoTitle}
+                        onChange={(e) => setNewMemoTitle(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <TextField
+                        fullWidth
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        label="Memo Description"
+                        value={newMemoDescription}
+                        onChange={(e) => setNewMemoDescription(e.target.value)}
+                        sx={{ mb: 2 }}
+                    />
+                    <Button
+                        variant="contained"
+                        component="label"
+                        sx={{ mt: 2 }}
+                    >
+                        Upload Image
+                        <input
+                            type="file"
+                            hidden
+                            onChange={(e) => setNewMemoImage(e.target.files[0])}
+                        />
+                    </Button>
+                    {newMemoImage && (
+                        <Typography sx={{ mt: 2 }}>Selected image: {newMemoImage.name}</Typography>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseAddMemoModal} color="secondary">
+                        Cancel
+                    </Button>
+                    <Button onClick={handleAddMemo} color="primary">
+                        Add Memo
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
             {[...memos].reverse().map((memo) => (
                 <Card key={memo.id} sx={{
