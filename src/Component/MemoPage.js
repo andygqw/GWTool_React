@@ -341,7 +341,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
             {[...memos].reverse().map((memo) => (
                 <Card key={memo.id} sx={{
                     mb: 3, display: 'flex', flexDirection: 'row', flexGrow: true, gap: 2, justifyContent: 'flex-start',
-                    boxShadow: 6,
+                    boxShadow: 6, backgroundColor: theme.palette.background.paper,
                 }}>
                     <CardContent sx={{ display: 'flex', flexDirection: 'column', maxWidth: '60%' }}>
                         <div style={{ padding: 10 }}>
