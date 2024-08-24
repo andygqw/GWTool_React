@@ -191,20 +191,6 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                     {error && <Typography color="error" variant="body2">{error}
                     </Typography>}
 
-                    {/*<Button*/}
-                    {/*    variant="contained"*/}
-                    {/*    component="label"*/}
-                    {/*    sx={{mb: 1}}*/}
-                    {/*>*/}
-                    {/*    Upload Files*/}
-                    {/*    <input*/}
-                    {/*        type="file"*/}
-                    {/*        multiple*/}
-                    {/*        hidden*/}
-                    {/*        onChange={handleUpload}*/}
-                    {/*    />*/}
-                    {/*</Button>*/}
-
                     <Box {...getRootProps()} sx={{
                         border: '2px dashed',
                         borderColor: theme.palette.divider,
@@ -222,13 +208,13 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                         <input {...getInputProps()} />
                         <CloudUploadIcon sx={{fontSize: 50, color: theme.palette.text.secondary}}/>
                         <Typography variant="h6" gutterBottom>
-                            {isDragActive ? "Drop the files here ..." : "Drag and drop or select files/folders"}
+                            {isDragActive ? "Drop the files here ..." : "Drag and drop or select files"}
                         </Typography>
                         <Button variant="contained" sx={{mt: 2}}>
                             Select from computer
                         </Button>
-                        <Typography variant="caption" color="textSecondary">
-
+                        <Typography variant="caption" color="textSecondary" sx={{marginTop: 2}}>
+                            Note that files are automatically deleted 120 days after last upload.
                         </Typography>
                     </Box>
                 </div>
