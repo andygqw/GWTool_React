@@ -37,6 +37,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });
             } else {
+                console.log(JSON.stringify(response));
                 throw new Error(response.data.error);
             }
         } catch (err) {

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://toolapi.tiny-pink.com/',
+    baseURL: 'https://toolapi.tiny-pink.com',
 });
 
 api.interceptors.request.use(
