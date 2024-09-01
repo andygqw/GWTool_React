@@ -35,6 +35,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
             if (res.success === true) {
                 //localStorage.setItem('token', response.data.token);
+                localStorage.setItem('isLoggedIn', true);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });

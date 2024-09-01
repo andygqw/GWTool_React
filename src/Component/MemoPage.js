@@ -55,7 +55,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 setMemos(response.data);
             }
             else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             }
@@ -73,21 +73,14 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     }, [location, navigate, setIsLoggedIn]);
 
     useEffect(() => {
-        if (Cookies.get('token')) {
-            setIsLoggedIn(true);
-            console.log('memo: ' + isLoggedIn);
+    
+        if (isLoggedIn) {
             fetchMemos();
         } else {
-            console.log('memo: ' + isLoggedIn);
             navigate('/login', { state: { from: location } });
         }
-        // if (isLoggedIn) {
-        //     fetchMemos();
-        // } else {
-        //     navigate('/login', { state: { from: location } });
-        // }
         setError('');
-    }, [fetchMemos, navigate, location, isLoggedIn, setIsLoggedIn]);
+    }, [fetchMemos, navigate, location, isLoggedIn]);
 
     const handleAddMemo = async () => {
         try {

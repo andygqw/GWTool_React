@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
 import {
     ThemeProvider, CssBaseline, Switch,
     Toolbar, Typography, Button, AppBar, Box, IconButton,
@@ -26,7 +25,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
-    const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('isLoggedIn'));
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -41,12 +40,6 @@ function App() {
 
     useEffect(() => {
 
-        if (Cookies.get('token')) {
-            setIsLoggedIn(true);
-        }
-
-        console.log('main: ' + isLoggedIn);
-
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
             setMode(e.matches ? 'dark' : 'light');
@@ -56,11 +49,12 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, [setIsLoggedIn, isLoggedIn]);
+    }, []);
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
         Cookies.remove('token');
+        localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
         navigate('/');
