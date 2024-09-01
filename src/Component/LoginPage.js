@@ -33,14 +33,13 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
             const res = await response.json();
 
-            console.log('response: ' + JSON.stringify(res));
-            if (response.success) {
+            if (res.success) {
                 //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });
             } else {
-                throw new Error(response.data.error);
+                throw new Error(res.error);
             }
         } catch (err) {
             setError(err.message);
