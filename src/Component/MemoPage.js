@@ -73,6 +73,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
 
     useEffect(() => {
 
+        console.log('memo: ' + isLoggedIn);
         if (isLoggedIn) {
             fetchMemos();
         } else {
