@@ -18,7 +18,7 @@ import ResourcePage from './Component/ResourcePage';
 import MemoPage from './Component/MemoPage';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
-import api from 'utils/api';
+import api from './utils/api';
 
 
 function App() {
