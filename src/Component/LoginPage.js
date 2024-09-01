@@ -31,14 +31,15 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 body: JSON.stringify({ username, password })
             })
 
-            console.log('response: ' + JSON.stringify(response));
+            res = await response.json();
+
+            console.log('response: ' + JSON.stringify(res));
             if (response.success) {
                 //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });
             } else {
-                console.log(JSON.stringify(response));
                 throw new Error(response.data.error);
             }
         } catch (err) {
