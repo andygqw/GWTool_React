@@ -50,7 +50,6 @@ function App() {
                     });
 
                     if (response.status === 200) {
-                        console.log(JSON.stringify(response));
                         localStorage.setItem('username', response.data);
                         setIsLoggedIn(true);
                     } else if (response.status === 401) {
