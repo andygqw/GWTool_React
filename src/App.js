@@ -28,7 +28,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -45,6 +45,7 @@ function App() {
         const fetchUserInfo = async () => {
             if (Cookies.get('token')) {
                 try {
+                    console.log('In token');
                     const response = await api.get(`/user`, {
                         validateStatus: (status) => status >= 200 && status <= 500
                     });
