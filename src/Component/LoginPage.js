@@ -33,7 +33,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
             const res = await response.json();
 
-            if (res.success) {
+            if (res.success === true) {
                 //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
