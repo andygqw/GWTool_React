@@ -18,6 +18,8 @@ import ResourcePage from './Component/ResourcePage';
 import MemoPage from './Component/MemoPage';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
+import api from '../utils/api';
+
 
 function App() {
     const getDefaultMode = () => {
@@ -26,7 +28,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
-    const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -40,6 +42,30 @@ function App() {
     const location = useLocation();
 
     useEffect(() => {
+        const fetchUserInfo = async () => {
+            if (Cookies.get('token')) {
+                try {
+                    const response = await api.get(`/user`, {
+                        validateStatus: (status) => status >= 200 && status <= 500
+                    });
+
+                    if (response.status === 200) {
+                        localStorage.setItem('username', response.data.username);
+                    } else if (response.status === 401) {
+                        localStorage.removeItem('isLoggedIn');
+                        localStorage.removeItem('username');
+                        setIsLoggedIn(false);
+                        navigate('/login', { state: { from: location } });
+                    } else {
+                        throw new Error('Failed to fetch user info');
+                    }
+                } catch (err) {
+                    console.warn(err.message);
+                }
+            }
+        };
+
+        fetchUserInfo();
 
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
@@ -50,8 +76,8 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, []);
-
+    }, [location, navigate]);
+    
     const handleLogout = () => {
         //localStorage.removeItem('token');
         Cookies.remove('token', { path: '/', domain: '.tiny-pink.com' });
