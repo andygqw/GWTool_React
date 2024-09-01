@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {Button, TextField, Container, Typography, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
-import api from '../utils/api';
-import { EMAIL_PATTERN } from '../utils/helper';
+import { EMAIL_PATTERN, AUTH_CENTER } from '../utils/helper';
 
 const RegisterPage = () => {
     const theme = useTheme();
@@ -29,10 +28,13 @@ const RegisterPage = () => {
                 throw new Error("Two passwords don't match");
             }
 
-            const response = await api.post('/register', {username, email, password}, {
-                validateStatus: function (status) {
-                    return status >= 200 && status <= 500;
-                }
+            const response = await fetch(AUTH_CENTER + '/register', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({username, email, password})
             });
 
             if (response.status === 200) {
