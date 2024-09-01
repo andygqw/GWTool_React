@@ -43,7 +43,6 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     const fetchMemos = useCallback(async () => {
         try {
             setLoading(true);
-            console.log('yes!');
             const response = await api.get('/memo', {
                 validateStatus: function (status) {
                     return status >= 200 && status <= 500;
@@ -73,7 +72,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     }, [location, navigate, setIsLoggedIn]);
 
     useEffect(() => {
-
+        console.log('memo: ' + isLoggedIn);
         if (isLoggedIn) {
             fetchMemos();
         } else {

@@ -26,7 +26,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
-    const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -40,6 +40,11 @@ function App() {
     const location = useLocation();
 
     useEffect(() => {
+
+        if (Cookies.get('token')) {
+            setIsLoggedIn(true);
+        }
+
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
             setMode(e.matches ? 'dark' : 'light');
@@ -49,7 +54,7 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, []);
+    }, [setIsLoggedIn, Cookies]);
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
