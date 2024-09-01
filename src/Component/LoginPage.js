@@ -37,6 +37,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
+                console.log('We before navigator');
                 navigate(from, { replace: true });
             } else {
                 throw new Error(res.error);
