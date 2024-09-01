@@ -24,6 +24,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
             const response = await fetch(AUTH_CENTER + '/login', {
                 method: 'POST',
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
