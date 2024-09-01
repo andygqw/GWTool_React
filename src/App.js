@@ -45,6 +45,8 @@ function App() {
             setIsLoggedIn(true);
         }
 
+        console.log('main: ' + isLoggedIn);
+
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
         const handleChange = (e) => {
             setMode(e.matches ? 'dark' : 'light');
@@ -54,7 +56,7 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, [setIsLoggedIn]);
+    }, [setIsLoggedIn, isLoggedIn]);
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
