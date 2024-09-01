@@ -54,7 +54,7 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, [setIsLoggedIn, Cookies]);
+    }, [setIsLoggedIn]);
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
