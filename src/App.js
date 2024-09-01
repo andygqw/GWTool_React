@@ -18,7 +18,7 @@ import ResourcePage from './Component/ResourcePage';
 import MemoPage from './Component/MemoPage';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import './App.css';
-import api from '../utils/api';
+import api from 'utils/api';
 
 
 function App() {
@@ -77,7 +77,7 @@ function App() {
             mediaQuery.removeEventListener('change', handleChange);
         };
     }, [location, navigate]);
-    
+
     const handleLogout = () => {
         //localStorage.removeItem('token');
         Cookies.remove('token', { path: '/', domain: '.tiny-pink.com' });
