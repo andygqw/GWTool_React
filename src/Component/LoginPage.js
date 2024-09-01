@@ -31,7 +31,8 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 body: JSON.stringify({ username, password })
             })
 
-            if (response.ok) {
+            console.log('response: ' + JSON.stringify(response));
+            if (response.success) {
                 //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
