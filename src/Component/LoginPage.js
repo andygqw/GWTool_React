@@ -31,7 +31,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 body: JSON.stringify({ username, password })
             })
 
-            res = await response.json();
+            const res = await response.json();
 
             console.log('response: ' + JSON.stringify(res));
             if (response.success) {
