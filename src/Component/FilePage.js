@@ -36,7 +36,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             if (response.status === 200) {
                 setFiles(response.data);
             } else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             } else {
@@ -98,7 +98,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
                 }
                 await fetchFiles();
             } else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             } else {
@@ -140,7 +140,7 @@ const FilePage = ({isLoggedIn, setIsLoggedIn}) => {
             if (response.status === 200) {
                 await fetchFiles();
             } else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             } else {

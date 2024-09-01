@@ -39,9 +39,9 @@ const ResourcePage = ({isLoggedIn, setIsLoggedIn}) => {
                 setIsAllowed(true);
                 setResources(response.data);
             } else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
-                navigate('/login', {state: {from: location}});
+                navigate('/login', { state: { from: location } });
             } else if (response.status === 403) {
                 setIsAllowed(false);
             } else {

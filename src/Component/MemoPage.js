@@ -119,7 +119,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 setNewMemoImage(null);
 
             } else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             } else {
@@ -147,7 +147,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                 fetchMemos();
             }
             else if (response.status === 401) {
-                localStorage.removeItem('token');
+                localStorage.removeItem('isLoggedIn');
                 setIsLoggedIn(false);
                 navigate('/login', { state: { from: location } });
             }
@@ -184,7 +184,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                     fetchMemos();
                 }
                 else if (response.status === 401) {
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('isLoggedIn');
                     setIsLoggedIn(false);
                     navigate('/login', { state: { from: location } });
                 }
@@ -225,7 +225,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
                     throw new Error('You can\'t delete a reply when others have replied to this reply');
                 }
                 else if (response.status === 401) {
-                    localStorage.removeItem('token');
+                    localStorage.removeItem('isLoggedIn');
                     setIsLoggedIn(false);
                     navigate('/login', { state: { from: location } });
                 }
