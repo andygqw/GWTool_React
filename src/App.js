@@ -51,8 +51,8 @@ function App() {
 
                     if (response.status === 200) {
                         localStorage.setItem('username', response.data);
+                        setIsLoggedIn(true);
                     } else if (response.status === 401) {
-                        localStorage.removeItem('isLoggedIn');
                         localStorage.removeItem('username');
                         setIsLoggedIn(false);
                         navigate('/login', { state: { from: location } });
@@ -76,12 +76,11 @@ function App() {
         return () => {
             mediaQuery.removeEventListener('change', handleChange);
         };
-    }, [location, navigate]);
+    }, [location, navigate, setIsLoggedIn]);
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
         Cookies.remove('token', { path: '/', domain: '.tiny-pink.com' });
-        localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
         navigate('/');
