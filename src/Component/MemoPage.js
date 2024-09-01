@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Cookies from 'js-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Container, Typography, Box, Card, CardContent, CardActions,
