@@ -45,12 +45,12 @@ function App() {
         const fetchUserInfo = async () => {
             if (Cookies.get('token')) {
                 try {
-                    console.log('In token');
                     const response = await api.get(`/user`, {
                         validateStatus: (status) => status >= 200 && status <= 500
                     });
 
                     if (response.status === 200) {
+                        console.log(JSON.stringify(response));
                         localStorage.setItem('username', response.data);
                         setIsLoggedIn(true);
                     } else if (response.status === 401) {
