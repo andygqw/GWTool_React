@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import Cookies from 'js-cookie';
 import { useNavigate, useLocation } from 'react-router-dom';
 import {
     Container, Typography, Box, Card, CardContent, CardActions,
@@ -72,12 +73,19 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
     }, [location, navigate, setIsLoggedIn]);
 
     useEffect(() => {
-        console.log('memo: ' + isLoggedIn);
-        if (isLoggedIn) {
+        if (Cookies.get('token')) {
+            setIsLoggedIn(true);
+            console.log('memo: ' + isLoggedIn);
             fetchMemos();
         } else {
+            console.log('memo: ' + isLoggedIn);
             navigate('/login', { state: { from: location } });
         }
+        // if (isLoggedIn) {
+        //     fetchMemos();
+        // } else {
+        //     navigate('/login', { state: { from: location } });
+        // }
         setError('');
     }, [fetchMemos, navigate, location, isLoggedIn]);
 
