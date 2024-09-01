@@ -26,7 +26,7 @@ function App() {
     };
 
     const [mode, setMode] = useState(getDefaultMode);
-    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('isLoggedIn'));
+    const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get('token'));
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
 
