@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import {
     ThemeProvider, CssBaseline, Switch,
     Toolbar, Typography, Button, AppBar, Box, IconButton,
