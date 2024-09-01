@@ -1,6 +1,8 @@
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export const AUTH_CENTER = 'https://auth.tiny-pink.com';
+
 export const formatFileSize = (sizeInBytes) => {
     const sizeInMB = sizeInBytes / (1024 * 1024);
     if (sizeInMB < 1) {

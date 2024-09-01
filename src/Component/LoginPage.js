@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, TextField, Container, Typography, Box} from '@mui/material';
 import {useTheme} from '@mui/material/styles';
 import {useNavigate, useLocation} from 'react-router-dom';
-import api from '../utils/api';
+import { AUTH_CENTER } from '../utils/helper';
 
 const LoginPage = ({ setIsLoggedIn }) => {
 
@@ -22,15 +22,16 @@ const LoginPage = ({ setIsLoggedIn }) => {
                 throw new Error("All fields are required");
             }
 
-            const response = await api.post('/login',
-                {username, password},
-                {
-                    validateStatus: function (status) {
-                        return status >= 200 && status <= 500;
-                    }
-                });
+            const response = await fetch(AUTH_CENTER + '/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+
             if (response.status === 200) {
-                localStorage.setItem('token', response.data.token);
+                //localStorage.setItem('token', response.data.token);
                 localStorage.setItem('username', username);
                 setIsLoggedIn(true);
                 navigate(from, { replace: true });
