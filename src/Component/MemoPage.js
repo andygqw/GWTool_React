@@ -87,7 +87,7 @@ const MemoPage = ({ isLoggedIn, setIsLoggedIn }) => {
         //     navigate('/login', { state: { from: location } });
         // }
         setError('');
-    }, [fetchMemos, navigate, location, isLoggedIn]);
+    }, [fetchMemos, navigate, location, isLoggedIn, setIsLoggedIn]);
 
     const handleAddMemo = async () => {
         try {
