@@ -54,7 +54,7 @@ function App() {
 
     const handleLogout = () => {
         //localStorage.removeItem('token');
-        Cookies.remove('token');
+        Cookies.remove('token', { path: '/', domain: '.tiny-pink.com' });
         localStorage.removeItem('isLoggedIn');
         localStorage.removeItem('username');
         setIsLoggedIn(false);
