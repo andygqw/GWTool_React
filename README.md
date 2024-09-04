@@ -2,6 +2,17 @@
 
 GWTool is a sleek, modern web application providing various online tools for users. The application includes multiple functional pages and provides an excellent user experience across multiple platforms.
 
+## Online Access
+
+Click [here](https://tool.tiny-pink.com/) and log in with
+```bash
+username: Demo
+password: Demo
+```
+or [register](https://tool.tiny-pink.com/register) a new account.
+
+**Note that Resource and Memo feature is not for public access, ask Administrator for private access.**
+
 ## Techniques
 
 - **React.js**: The entire frontend is built using React.
@@ -14,4 +25,4 @@ GWTool is a sleek, modern web application providing various online tools for use
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
